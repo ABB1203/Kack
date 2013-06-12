@@ -16,6 +16,7 @@ public class Frame extends JFrame {
 	public Frame() {
 		game = new Game("this is the level path", WIDTH, HEIGHT, SCALE, 16 /*tile size*/, this);
 		
+		setSize(WIDTH * SCALE, HEIGHT * SCALE);
 		setResizable(true);
 		setTitle(NAME);
 		add(game);

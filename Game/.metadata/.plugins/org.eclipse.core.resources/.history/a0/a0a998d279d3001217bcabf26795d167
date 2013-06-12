@@ -1,0 +1,21 @@
+package game.level;
+
+public class Level {
+
+	protected int width = 64, height = 64;
+	protected int[] tiles;
+	
+	public Level(String path) {
+		loadLevel(path);
+		generateLevel();
+	}
+	
+	protected void loadLevel(String path) {
+		
+	}
+	
+	protected void generateLevel() {
+		
+	}
+	
+}

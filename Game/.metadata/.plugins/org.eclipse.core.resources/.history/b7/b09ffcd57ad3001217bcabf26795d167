@@ -1,0 +1,5 @@
+package game.level.tile;
+
+public class GrassTile {
+
+}

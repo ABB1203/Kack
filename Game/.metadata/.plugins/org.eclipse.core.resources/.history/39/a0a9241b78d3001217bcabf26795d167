@@ -1,0 +1,32 @@
+package game.gfx;
+
+public class Sprite {
+
+	private int size;
+	private int x, y;
+	public int[] pixels;
+	private SpriteSheet sheet;
+
+	public Sprite (int size, int x, int y, SpriteSheet sheet) {
+		this.x = x * size;
+		this.y = y * size;
+		this.sheet = sheet;
+		pixels = new int[size * size];
+		loadSprite();
+	}
+	
+	public Sprite(int size, int color) {
+		this.size = size;
+		pixels = new int[size*size];
+		setColor(color);
+	}
+	
+	private void setColor(int color) {
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = color;
+		}
+	}
+	
+	
+
+}

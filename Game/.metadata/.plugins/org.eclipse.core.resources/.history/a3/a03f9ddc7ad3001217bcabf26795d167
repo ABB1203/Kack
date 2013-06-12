@@ -1,0 +1,10 @@
+package game.level.tile;
+
+import game.gfx.Sprite;
+
+public class GrassTile {
+
+	public GrassTile(Sprite sprite) {
+		super();
+	}
+}

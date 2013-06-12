@@ -1,0 +1,17 @@
+package game.level.tile;
+
+import game.gfx.Sprite;
+
+public class Tile {
+
+	private int x, y;
+	private Sprite sprite;
+	private int tileSize;
+	private static int shift;
+	
+	public Tile(Sprite sprite) {
+		this.sprite = sprite;
+		tileSize = sprite.getSize();
+	}
+	
+}

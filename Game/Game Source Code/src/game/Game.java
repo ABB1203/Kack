@@ -2,6 +2,8 @@ package game;
 
 import game.gfx.Screen;
 import game.input.InputHandler;
+import game.level.Level;
+import game.level.tile.Tile;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -26,6 +28,8 @@ public class Game extends Canvas implements Runnable {
 	
 	private Screen screen;
 	private InputHandler input;
+	private Level level;
+	private Tile tile;
 
 	private BufferedImage image;
 	private int[] pixels;
@@ -47,6 +51,7 @@ public class Game extends Canvas implements Runnable {
 		
 		screen = new Screen(width, height);
 		input = new InputHandler(this);
+		level = new Level("/basicLevel.png");
 	}
 
 	public synchronized void start() {
@@ -62,7 +67,7 @@ public class Game extends Canvas implements Runnable {
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
-			System.out.println("Could not join the game thread!");
+			System.out.println("Could not close the game thread!");
 			e.printStackTrace();
 		}
 	}
@@ -130,7 +135,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		screen.clear();
-		screen.render(x, y);
+		level.render(x, y, screen);
 		
 		Graphics g = bs.getDrawGraphics();
 		
@@ -157,8 +162,13 @@ public class Game extends Canvas implements Runnable {
 	public int getScreenHeight() {
 		return height * scale;
 	}
-	
+
 	public static int getMinTileSize() {
 		return minTileSize;
+	}
+	
+	public static int getMinTileShift() {
+		System.out.println(Math.log(getMinTileSize()) / Math.log(2));
+		return (int) (Math.log(getMinTileSize()) / Math.log(2));
 	}
 }
