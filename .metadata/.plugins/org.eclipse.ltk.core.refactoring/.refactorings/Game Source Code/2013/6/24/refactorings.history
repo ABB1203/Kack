@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename field &apos;WIDTH&apos; in &apos;game.Game&apos; to &apos;width&apos;&#x0D;&#x0A;- Original project: &apos;Game Source Code&apos;&#x0D;&#x0A;- Original element: &apos;game.Game.WIDTH&apos;&#x0D;&#x0A;- Renamed element: &apos;game.Game.width&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;WIDTH&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;game{Game.java[Game^WIDTH" name="width" references="true" setter="false" stamp="1371025707454" textual="false" version="1.0"/>
-</session>
