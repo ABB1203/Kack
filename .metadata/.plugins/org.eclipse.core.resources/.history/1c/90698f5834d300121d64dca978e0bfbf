@@ -1,0 +1,18 @@
+package game;
+
+import java.awt.Canvas;
+
+public class Game extends Canvas implements Runnable{
+
+	public void run() {
+		
+	}
+	
+	public synchronized void start() {
+	}
+	
+
+	public synchronized void stop() {
+		
+	}
+}

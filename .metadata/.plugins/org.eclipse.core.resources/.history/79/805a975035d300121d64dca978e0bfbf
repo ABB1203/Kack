@@ -1,0 +1,45 @@
+package game;
+
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+
+public class Game extends Canvas implements Runnable{
+
+	private String levelPath;
+	private boolean running = false;
+	private Thread thread;
+	
+	private BufferedImage image;
+	public int[] pixels;
+	
+	public Game(String levelPath, Dimension dimensions) {
+		image = new BufferedImage(dimensions.width, dimensions.height, BufferedImage.TYPE_INT_RGB);
+		setPreferredSize(dimensions);
+		setMaximumSize(dimensions);
+		setMinimumSize(dimensions);
+	}
+	
+	public synchronized void start() {
+		running = true;
+		
+		thread = new Thread(this, "Canvas");
+		thread.start();
+	}
+	
+	public synchronized void stop() {
+		running = false;
+		
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			System.out.println("Could not join the game thread!");
+			e.printStackTrace();
+		}
+	}
+	
+	public void run() {
+		
+	}
+	
+}
