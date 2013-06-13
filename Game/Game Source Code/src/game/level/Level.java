@@ -33,8 +33,6 @@ public class Level {
 			tiles = image.getRGB(0, 0, width, height, null, 0, width);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			System.out.println("Could not get image from \"" + path + "\"!");
 		}
 
 	}
@@ -66,11 +64,21 @@ public class Level {
 		}
 	}
 
-	protected Tile getTile(int x, int y) {
+	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == 0xff00ff00) return Tile.grass;
 		if (tiles[x + y * width] == 0xffffff00) return Tile.flower;
 		if (tiles[x + y * width] == 0xffcc6666) return Tile.rock;
 		return Tile.voidTile;
+	}
+
+	public int getWidth() {
+		// From tile width to pixel width
+		return width << 4;
+	}
+
+	public int getHeight() {
+		// From tile width to pixel width
+		return height << 4;
 	}
 }

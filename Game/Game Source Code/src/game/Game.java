@@ -1,5 +1,6 @@
 package game;
 
+import game.entity.mob.Player;
 import game.gfx.Screen;
 import game.input.InputHandler;
 import game.level.Level;
@@ -25,11 +26,11 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private Thread thread;
 	private Frame frame;
-	
+
 	private Screen screen;
 	private InputHandler input;
 	private Level level;
-	private Tile tile;
+	private Player player;
 
 	private BufferedImage image;
 	private int[] pixels;
@@ -48,10 +49,12 @@ public class Game extends Canvas implements Runnable {
 		setPreferredSize(dimensions);
 		setMaximumSize(dimensions);
 		setMinimumSize(dimensions);
-		
+
 		screen = new Screen(width, height);
 		input = new InputHandler(this);
 		level = new Level("/basicLevel.png");
+		player = new Player(input);
+		player.init(level);
 	}
 
 	public synchronized void start() {
@@ -117,14 +120,9 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		input.tick();
-
-
-		if(input.up) y--;
-		if(input.down) y++;
-		if(input.right) x++;
-		if(input.left) x--;
+		player.tick();
 	}
-	
+
 	int x = 0, y = 0;
 
 	public void render() {
@@ -133,19 +131,24 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
-		
+
 		screen.clear();
-		level.render(x, y, screen);
 		
+		// This centers the player on the screen
+		int xOffset = player.getX() - (screen.width - player.getSprite().getSize()) / 2;
+		int yOffset = player.getY() - (screen.height - player.getSprite().getSize()) / 2;
+		
+		level.render(xOffset, yOffset, screen);
+
+		player.render(screen);
+
 		Graphics g = bs.getDrawGraphics();
-		
-		for(int i = 0; i < pixels.length; i++) {
+
+		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
-		
-		
+
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		
 
 		g.setColor(Color.black);
 
@@ -166,7 +169,7 @@ public class Game extends Canvas implements Runnable {
 	public static int getMinTileSize() {
 		return minTileSize;
 	}
-	
+
 	public static int getMinTileShift() {
 		return (int) (Math.log(getMinTileSize()) / Math.log(2));
 	}

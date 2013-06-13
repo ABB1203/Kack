@@ -1,0 +1,28 @@
+package game.entity;
+
+import game.gfx.Screen;
+
+import java.util.Random;
+
+public abstract class Entity {
+
+	protected int x, y;
+	protected boolean removed = false;
+	protected final Random random = new Random();
+
+	public void tick() {
+
+	}
+
+	public void render(Screen screen) {
+
+	}
+
+	public void remove() {
+		removed = true;
+	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+}

@@ -12,7 +12,7 @@ public class Tile {
 
 	public static Tile grass = new GrassTile(Sprite.grass);
 	public static Tile flower = new GrassTile(Sprite.flower);
-	public static Tile rock = new GrassTile(Sprite.rock);
+	public static Tile rock = new RockTile(Sprite.rock);
 	public static Tile voidTile = new Tile(Sprite.voidSprite);
 	
 	public Tile(Sprite sprite) {
@@ -27,5 +27,9 @@ public class Tile {
 	
 	public int getSize() {
 		return tileSize;
-	}	
+	}
+	
+	public boolean isSolid() {
+		return false;
+	}
 }

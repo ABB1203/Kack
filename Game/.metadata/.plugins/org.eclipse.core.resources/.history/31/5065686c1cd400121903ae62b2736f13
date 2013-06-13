@@ -1,0 +1,20 @@
+package game.entity.mob;
+
+import game.gfx.Sprite;
+
+public class Player extends Mob {
+	
+	private Sprite sprite = Sprite.grass;
+	
+	public void render(int x, int y) {
+		
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+}

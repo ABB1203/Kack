@@ -1,6 +1,7 @@
 package game.gfx;
 
 import game.Game;
+import game.entity.mob.Player;
 import game.level.tile.Tile;
 
 import java.util.Random;
@@ -31,18 +32,6 @@ public class Screen {
 			pixels[i] = 0;
 		}
 	}
-
-//	public void render(int xOffset, int yOffset) {
-//
-//		for (int y = 0; y < height; y++) {
-//			int yy = y + yOffset;
-//			for (int x = 0; x < width; x++) {
-//				int xx = x + xOffset;
-//				int tileIndex = ((xx >> 4) & 7) + ((yy >> 4) & 7) * 8;
-//				pixels[x + y * width] = tiles[tileIndex];
-//			}
-//		}
-//	}
 	
 	public void renderTile(int xPos, int yPos, Tile tile) {
 		xPos -= xOffset;
@@ -55,6 +44,28 @@ public class Screen {
 				if(xAbsolute < -tile.getSize() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
 				if(xAbsolute < 0) xAbsolute = 0;
 				pixels[xAbsolute + yAbsolute * width] = tile.sprite.pixels[x + y * tile.getSize()];
+			}
+		}
+	}
+	
+	public void renderPlayer(int xPos, int yPos, Player player) {
+		xPos -= xOffset;
+		yPos -= yOffset;
+		
+		for(int y = 0; y < player.getSprite().getSize(); y++) {
+			int yAbsolute = y + yPos;
+			
+			if(yAbsolute < 0) yAbsolute = 0;
+			if(yAbsolute > height) yAbsolute = height;
+			
+			for(int x = 0; x < player.getSprite().getSize(); x++) {
+				int xAbsolute = x + xPos;
+				
+
+				if(xAbsolute >= width || yAbsolute >= height) break;
+				if(xAbsolute < 0) xAbsolute = 0;
+				pixels[xAbsolute + yAbsolute * width] = player.getSprite().pixels[x + y * player.getSprite().getSize()];
+				
 			}
 		}
 	}

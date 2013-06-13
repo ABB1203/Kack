@@ -1,0 +1,29 @@
+package game.entity.mob;
+
+import game.gfx.Screen;
+import game.gfx.Sprite;
+
+public class Player extends Mob {
+	
+	private Sprite sprite = Sprite.leaves;
+	
+	public Player() {
+		
+	}
+	
+	public void render(Screen screen) {
+		screen.renderPlayer(x, y, this);
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+}
