@@ -55,7 +55,7 @@ public class Level {
 		// shift value depending on the size of the tiles
 		int x0 = xOffset >> 4; // from pixel position to tile position
 		int x1 = (xOffset + screen.width + game.getMinTileSize()) >> 4;
-		int y0 = yOffset >> 4;
+		int y0 = (yOffset - 100) >> 4;
 		int y1 = (yOffset + screen.height + game.getMinTileSize()) >> 4;
 		// These values define the rendering region of the screen
 

@@ -52,7 +52,7 @@ public class Screen {
 			int yAbsolute = y + yPos;
 			for(int x = 0; x < tile.getSize(); x++) {
 				int xAbsolute = x + xPos;
-				if(xAbsolute < -tile.getSize() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
+				if(xAbsolute < 0 || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
 				if(xAbsolute < 0) xAbsolute = 0;
 				pixels[xAbsolute + yAbsolute * width] = tile.sprite.pixels[x + y * tile.getSize()];
 			}
