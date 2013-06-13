@@ -168,7 +168,6 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public static int getMinTileShift() {
-		System.out.println(Math.log(getMinTileSize()) / Math.log(2));
 		return (int) (Math.log(getMinTileSize()) / Math.log(2));
 	}
 }
