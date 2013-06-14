@@ -1,0 +1,16 @@
+package game.weapon;
+
+import game.gfx.Sprite;
+
+import java.awt.Graphics;
+
+public class Gun extends Weapon {
+	
+	public Gun() {
+		this.sprite = Sprite.gun;
+	}
+	
+	public void render(Graphics g, int x, int y) {
+		g.drawRect(100, 100, 100, 100);
+	}
+}

@@ -1,0 +1,25 @@
+package game.weapon;
+
+import game.gfx.Sprite;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.Random;
+
+public class Weapon {
+
+	protected Sprite sprite;
+	protected javaxt.io.Image = image
+	protected double speed, damage, range, fireRate;
+	protected final Random random = new Random();
+	
+	
+	public Weapon() {
+		
+	}
+
+
+	public void render(Graphics g, int x, int y) {
+	}
+}

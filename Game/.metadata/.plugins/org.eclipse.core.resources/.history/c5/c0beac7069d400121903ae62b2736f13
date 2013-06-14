@@ -1,0 +1,75 @@
+package game.weapon;
+
+import game.gfx.Sprite;
+import game.level.Level;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.TexturePaint;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Gun extends Weapon {
+
+	public Gun() {
+		this.sprite = Sprite.gun;
+		try {
+			image = ImageIO.read(Level.class.getResource("/weapons.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	int i = 0;
+	double j = 0;
+
+	public void render(Graphics g1, int x, int y) {
+		i++;
+
+		if (i == 100) {
+			i = 0;
+			j += 0.01;
+		}
+		
+		
+		Graphics2D g = (Graphics2D) g1;
+		
+		AffineTransform xform = new AffineTransform();
+		g.setColor(Color.WHITE);
+		g.drawString("Bilinear, Antialiased", 80, 205);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		                   RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setPaint(new TexturePaint(srcImage,
+		    new Rectangle2D.Float(0, 0, srcImage.getWidth(), srcImage.getHeight())));
+		xform.setToIdentity();
+		xform.translate(15, 190);
+		xform.rotate(Math.PI/8, srcImage.getWidth()/2, srcImage.getHeight()/2);
+		g.transform(xform);
+		g.fillRect(0, 0, srcImage.getWidth(), srcImage.getHeight());
+
+//		Graphics2D g2d = (Graphics2D) g;
+//		AffineTransform at = new AffineTransform();
+//
+//		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//
+//		g2d.setPaint(new TexturePaint(image,
+//			    new Rectangle2D.Float(0, 0, image.getWidth(), image.getHeight())));
+//		at.setToIdentity();
+//		at.translate(15, 70);
+//		at.rotate(j);
+//		at.scale(10, 10);
+//		g2d.transform(at);
+//		g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+		// g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		// RenderingHints.VALUE_ANTIALIAS_ON);
+		// g2d.rotate(j);
+		// g2d.fillRect(0, 0, 900, 900 * 10 / 16);
+		// g2d.drawImage(image, 100, 100, image.getWidth() * 3,
+		// image.getHeight() * 3, null);
+	}
+}

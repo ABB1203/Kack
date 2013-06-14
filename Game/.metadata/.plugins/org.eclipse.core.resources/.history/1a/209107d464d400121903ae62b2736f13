@@ -1,0 +1,13 @@
+package game.weapon;
+
+import game.gfx.Sprite;
+
+public class Weapon {
+
+	protected final int xOrigin, yOrigin;
+	protected Sprite sprite;
+	protected final int xOrigin, yOrigin;
+	protected int fireRate;
+	protected int range;
+	
+}

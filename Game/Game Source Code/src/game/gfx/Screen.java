@@ -74,5 +74,13 @@ public class Screen {
 		xOffset = x;
 		yOffset = y;
 	}
+	
+	public int getXOffset() {
+		return xOffset;
+	}
+	
+	public int getYOffset() {
+		return yOffset;
+	}
 
 }
