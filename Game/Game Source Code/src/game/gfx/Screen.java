@@ -1,7 +1,7 @@
 package game.gfx;
 
 import game.Game;
-import game.entity.mob.Player;
+import game.entity.mob.Mob;
 import game.entity.projectile.Projectile;
 import game.level.tile.Tile;
 
@@ -49,23 +49,23 @@ public class Screen {
 		}
 	}
 	
-	public void renderPlayer(int xPos, int yPos, Player player) {
+	public void renderMob(int xPos, int yPos, Mob mob) {
 		xPos -= xOffset;
 		yPos -= yOffset;
 		
-		for(int y = 0; y < player.getSprite().getSize(); y++) {
+		for(int y = 0; y < mob.getSprite().getSize(); y++) {
 			int yAbsolute = y + yPos;
 			
 			if(yAbsolute < 0) yAbsolute = 0;
 			if(yAbsolute > height) yAbsolute = height;
 			
-			for(int x = 0; x < player.getSprite().getSize(); x++) {
+			for(int x = 0; x < mob.getSprite().getSize(); x++) {
 				int xAbsolute = x + xPos;
 				
 
 				if(xAbsolute >= width || yAbsolute >= height) break;
 				if(xAbsolute < 0) xAbsolute = 0;
-				pixels[xAbsolute + yAbsolute * width] = player.getSprite().pixels[x + y * player.getSprite().getSize()];
+				pixels[xAbsolute + yAbsolute * width] = mob.getSprite().pixels[x + y * mob.getSprite().getSize()];
 				
 			}
 		}

@@ -1,0 +1,15 @@
+package game.entity.mob.AI;
+
+import game.entity.mob.Mob;
+
+public class AI extends Mob {
+
+	public AI() {
+		sprite = sprite.voidSprite;
+	}
+	
+	public void tick() {
+		x--;
+	}
+	
+}

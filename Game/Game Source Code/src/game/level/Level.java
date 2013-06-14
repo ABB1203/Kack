@@ -2,6 +2,7 @@ package game.level;
 
 import game.Game;
 import game.entity.Entity;
+import game.entity.mob.Player;
 import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.level.tile.Tile;
@@ -48,9 +49,11 @@ public class Level {
 
 	}
 	
-	public void tick() {
+	public void tick(int x, int y) {
 		for(int i = 0; i < entities.size(); i++) {
-			entities.get(i).tick();
+			if(!(entities.get(i) instanceof Player))
+			entities.get(i).tick(x, y);
+			else entities.get(i).tick();
 		}
 		
 		for(int i = 0; i < projectiles.size(); i++) {
@@ -69,9 +72,9 @@ public class Level {
 		// Every "4" can be replaced with "game.getMinTileShift()" to get the
 		// shift value depending on the size of the tiles
 		int x0 = xOffset >> 4; // from pixel position to tile position
-		int x1 = (xOffset + screen.width + game.getMinTileSize()) >> 4;
+		int x1 = (xOffset + screen.width + game.getTileSize()) >> 4;
 		int y0 = yOffset >> 4;
-		int y1 = (yOffset + screen.height + game.getMinTileSize()) >> 4;
+		int y1 = (yOffset + screen.height + game.getTileSize()) >> 4;
 		// These values define the rendering region of the screen
 
 		for (int y = y0; y < y1; y++) {
@@ -79,10 +82,19 @@ public class Level {
 				getTile(x, y).render(x, y, screen);
 			}
 		}
+		
 		for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).render(screen);
 		}
 		
+		for(int i = 0; i < entities.size(); i++) {
+			entities.get(i).render(screen);
+		}
+		
+	}
+	
+	public void add(Entity e) {
+		entities.add(e);
 	}
 	
 	public void addProjectile(Projectile p) {

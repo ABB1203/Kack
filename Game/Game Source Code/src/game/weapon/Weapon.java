@@ -1,11 +1,12 @@
 package game.weapon;
 
 import game.Game;
-import game.entity.mob.Player;
+import game.entity.mob.Mob;
 import game.gfx.Sprite;
 import game.input.Mouse;
 
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -18,13 +19,15 @@ public class Weapon {
 	protected Mouse mouse;
 	protected double width, height;
 	protected Game game;
+	protected AffineTransform at = new AffineTransform();
+	//protected double pipeXOffset, pipeYOffset;
 	
 	
 	public Weapon() {
 		
 	}
 
-	public void render(Graphics g, int xOffset, int yOffset, Player player) {
+	public void render(Graphics g, int xOffset, int yOffset, Mob mob, int xScale, int yScale) {
 		
 	}
 	
@@ -58,4 +61,12 @@ public class Weapon {
 	public Sprite getSprite() {
 		return sprite;
 	}
+	
+//	public int getPipeXOffset() {
+//		return (int) pipeXOffset;
+//	}
+//	
+//	public int getPipeYOffset() {
+//		return (int) pipeYOffset;
+//	}
 }

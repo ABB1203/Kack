@@ -1,6 +1,8 @@
 package game;
 
+import game.entity.mob.Mob;
 import game.entity.mob.Player;
+import game.entity.mob.AI.AI;
 import game.gfx.Screen;
 import game.input.InputHandler;
 import game.input.Mouse;
@@ -32,18 +34,19 @@ public class Game extends Canvas implements Runnable {
 	private Screen screen;
 	private InputHandler input;
 	private static Level level;
-	private Player player;
+	private Mob player;
 	private Weapon weapon;
 	private Mouse mouse;
+	private Mob ai;
 
 	private BufferedImage image;
 	private int[] pixels;
 
-	public Game(String levelPath, int width, int height, int scale, int minTileSize, Frame frame) {
+	public Game(String levelPath, int width, int height, int scale, int tileSize, Frame frame) {
 		this.width = width;
 		this.height = height;
 		this.scale = scale;
-		this.minTileSize = minTileSize;
+		this.minTileSize = tileSize;
 		this.frame = frame;
 
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -60,6 +63,9 @@ public class Game extends Canvas implements Runnable {
 		level = new Level("/basicLevel.png");
 		weapon = new Gun();
 		player = new Player(input, weapon);
+		ai = new AI();
+		level.add(player);
+		level.add(ai);
 	}
 
 	public synchronized void start() {
@@ -106,6 +112,7 @@ public class Game extends Canvas implements Runnable {
 			while (delta >= 1) {
 				ticks++;
 				tick();
+				render();
 				delta--;
 			}
 
@@ -117,7 +124,6 @@ public class Game extends Canvas implements Runnable {
 			}
 
 			frames++;
-			render();
 		}
 
 		stop();
@@ -125,8 +131,8 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		input.tick();
+		level.tick(player.getX(), player.getY());
 		player.tick(screen.getXOffset(), screen.getYOffset());
-		level.tick();
 	}
 
 	int x = 0, y = 0;
@@ -146,9 +152,6 @@ public class Game extends Canvas implements Runnable {
 		
 		level.render(xOffset, yOffset, screen);
 
-		player.render(screen);
-		
-
 		Graphics g = bs.getDrawGraphics();
 
 		for (int i = 0; i < pixels.length; i++) {
@@ -159,7 +162,7 @@ public class Game extends Canvas implements Runnable {
 
 		g.setColor(Color.black);
 
-		weapon.render(g, screen.getXOffset(), screen.getYOffset(), player);
+		weapon.render(g, screen.getXOffset(), screen.getYOffset(), player, getXScale(), getYScale());
 
 		g.dispose();
 		bs.show();
@@ -174,15 +177,23 @@ public class Game extends Canvas implements Runnable {
 		return height * scale;
 	}
 
-	public static int getMinTileSize() {
+	public static int getTileSize() {
 		return minTileSize;
 	}
 
-	public static int getMinTileShift() {
-		return (int) (Math.log(getMinTileSize()) / Math.log(2));
+	public static int getTileShift() {
+		return (int) (Math.log(getTileSize()) / Math.log(2));
 	}
 	
 	public static Level getLevel() {
 		return level;
+	}
+	
+	private int getXScale() {
+		return (int) (frame.getWidth() / width);
+	}
+	
+	private int getYScale() {
+		return (int) (frame.getHeight() / height);
 	}
 }

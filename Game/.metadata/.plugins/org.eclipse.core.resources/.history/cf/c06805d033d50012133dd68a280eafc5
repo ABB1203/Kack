@@ -1,0 +1,7 @@
+package game.entity.mob.AI;
+
+import game.entity.mob.Mob;
+
+public class AI extends Mob {
+
+}

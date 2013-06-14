@@ -9,7 +9,7 @@ import java.util.Random;
 
 public abstract class Entity {
 
-	protected int x = 200, y = 200;
+	protected double x = 0, y = 350;
 	protected boolean removed = false;
 	protected final Random random = new Random();
 	protected Game game;
@@ -19,15 +19,17 @@ public abstract class Entity {
 //		level = game.getLevel();
 //	}
 
+	public void tick(int x, int y) {}
+	
 	public void tick() {
 
 	}
 
 	public void render(Screen screen) {
-
+		
 	}
 
-	public boolean hasCollided(int xDir, int yDir) {
+	public boolean hasCollided(double xDir, double yDir) {
 		// test coordinates for the collision box
 		// these variables should be specific for each mob since their collision box is different
 		int xMin = 0;
@@ -42,8 +44,8 @@ public abstract class Entity {
 		return false;
 	}
 
-	public boolean isSolidTile(int xDir, int yDir, int x, int y) {
-		Tile newTile = level.getTile((int)(this.x + x + xDir) >> 4, (int)(this.y + y + yDir) >> 4);
+	public boolean isSolidTile(double xDir, double yDir, int x, int y) {
+		Tile newTile = level.getTile((int)(this.x + x + xDir) >> game.getTileShift(), (int)(this.y + y + yDir) >> game.getTileShift());
 		if (newTile.isSolid()) return true;
 		return false;
 	}

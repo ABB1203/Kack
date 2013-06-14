@@ -6,7 +6,6 @@ import game.entity.projectile.GunProjectile;
 import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.gfx.Sprite;
-import game.level.tile.Tile;
 import game.weapon.Weapon;
 
 public class Mob extends Entity {
@@ -19,8 +18,10 @@ public class Mob extends Entity {
 	protected Game game;
 	protected double angle;
 	protected double fireRateCounter;
+	protected double xDir, yDir;
+	protected double speed;
 
-	public void move(int xDir, int yDir) {
+	public void move(double xDir, double yDir) {
 		if (xDir != 0 && yDir != 0) {
 			move(xDir, 0);
 			move(0, yDir);
@@ -37,9 +38,14 @@ public class Mob extends Entity {
 			y += yDir;
 		}
 	}
+	
+	public void tick(int x, int y) {}
 
 	public void tick() {
-
+		if (x < 0) x = 0;
+		if (y < 0) y = 0;
+		if (x > level.getWidth() - sprite.getSize()) x = level.getWidth() - sprite.getSize();
+		if (y > level.getHeight() - sprite.getSize()) y = level.getHeight() - sprite.getSize();
 	}
 	
 	protected void shoot(int x, int y, double angle, Weapon weapon) {
@@ -48,10 +54,29 @@ public class Mob extends Entity {
 	}
 
 	public void render(Screen screen) {
-
+		screen.renderMob((int)x, (int)y, this);
+	}
+	
+	protected void clear() {
+		for(int i = 0; i < level.getProjectiles().size(); i++) {
+			Projectile p = level.getProjectiles().get(i);
+			if(p.isRemoved()) level.getProjectiles().remove(i);
+		}
 	}
 	
 	public Weapon getWeapon() {
 		return weapon;
+	}
+
+	public int getX() {
+		return (int)x;
+	}
+
+	public int getY() {
+		return (int)y;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
 	}
 }

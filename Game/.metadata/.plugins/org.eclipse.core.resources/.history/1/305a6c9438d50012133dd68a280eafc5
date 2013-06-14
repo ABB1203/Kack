@@ -1,0 +1,29 @@
+package game.entity.mob.AI;
+
+import game.entity.mob.Mob;
+
+public class AI extends Mob {
+
+	protected int tickCount;
+	protected int randomTick;
+	
+	public AI() {
+		sprite = sprite.voidSprite;
+	}
+
+	public void tick() {
+		super.tick();
+
+		tickCount++;
+		
+		if(tickCount)
+	}
+
+	protected int randomTick() {
+		// This gives a random value to how many ticks the AI should wait. If
+		// not updated, th number of ticks should be 60 each second
+		return 60 + random.nextInt(60);
+
+	}
+
+}
