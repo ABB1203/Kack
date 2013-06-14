@@ -2,6 +2,7 @@ package game.gfx;
 
 import game.Game;
 import game.entity.mob.Player;
+import game.entity.projectile.Projectile;
 import game.level.tile.Tile;
 
 import java.util.Random;
@@ -66,6 +67,22 @@ public class Screen {
 				if(xAbsolute < 0) xAbsolute = 0;
 				pixels[xAbsolute + yAbsolute * width] = player.getSprite().pixels[x + y * player.getSprite().getSize()];
 				
+			}
+		}
+	}
+	
+	public void renderProjectile(int xPos, int yPos, Projectile p) {
+		xPos -= xOffset;
+		yPos -= yOffset;
+		for (int y = 0; y < p.getSprite().getSize(); y++) {
+			int yAbsolute = y + yPos;
+			for (int x = 0; x < p.getSprite().getSize(); x++) {
+				int xAbsolute = x + xPos;
+				if(xAbsolute < -p.getSprite().getSize() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
+				if(xAbsolute < 0) xAbsolute = 0;
+
+				int color = p.getSprite().pixels[x + y * p.getSprite().getSize()];
+				if(color != 0xffEE00AC)	pixels[xAbsolute + yAbsolute * width] = p.getSprite().pixels[x + y * p.getSprite().getSize()];
 			}
 		}
 	}

@@ -1,11 +1,15 @@
 package game.level;
 
 import game.Game;
+import game.entity.Entity;
+import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.level.tile.Tile;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -18,6 +22,9 @@ public class Level {
 	protected int[] tiles;
 
 	protected Game game;
+
+	private List<Entity> entities = new ArrayList<Entity>();
+	private List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public Level(String path) {
 		loadLevel(path);
@@ -39,6 +46,16 @@ public class Level {
 
 	protected void generateLevel() {
 
+	}
+	
+	public void tick() {
+		for(int i = 0; i < entities.size(); i++) {
+			entities.get(i).tick();
+		}
+		
+		for(int i = 0; i < projectiles.size(); i++) {
+			projectiles.get(i).tick();
+		}
 	}
 
 	public void render(int xOffset, int yOffset, Screen screen) {
@@ -62,6 +79,14 @@ public class Level {
 				getTile(x, y).render(x, y, screen);
 			}
 		}
+		for(int i = 0; i < projectiles.size(); i++) {
+			projectiles.get(i).render(screen);
+		}
+		
+	}
+	
+	public void addProjectile(Projectile p) {
+		projectiles.add(p);
 	}
 
 	public Tile getTile(int x, int y) {
@@ -80,5 +105,9 @@ public class Level {
 	public int getHeight() {
 		// From tile width to pixel width
 		return height << 4;
+	}
+	
+	public List<Projectile> getProjectiles() {
+		return projectiles;
 	}
 }

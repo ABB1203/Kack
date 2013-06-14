@@ -16,7 +16,16 @@ import javax.imageio.ImageIO;
 public class Gun extends Weapon {
 
 	public Gun() {
-		this.sprite = Sprite.gun;
+		sprite = Sprite.shot;
+		
+		// These properties are just random
+		speed = 4;
+		damage = 20;
+		range = 200;
+		shotsPerSec = 2;
+		// 60 is ups (fireRate = number of updates that are between each shot)
+		fireRate = 60 / shotsPerSec;
+		
 		try {
 			image = ImageIO.read(Level.class.getResource("/weapons.png"));
 		} catch (IOException e) {
@@ -25,6 +34,13 @@ public class Gun extends Weapon {
 	}
 
 	public void render(Graphics g, int xOffset, int yOffset, Player player) {
+		
+		// replace 3 (the scale) with (jframe.width / width) to make it possible
+		// to work after resizing the frame
+		// These values will later be used to determine where the projectiles will start rendering. Right now they will start rendering at the middle of the player
+		width = image.getWidth() * 3;
+		height = image.getHeight() * 3;
+		
 		AffineTransform trans = new AffineTransform();
 
 		int x = player.getX() + player.getSprite().getSize() / 2 - xOffset;
@@ -32,10 +48,10 @@ public class Gun extends Weapon {
 
 		// replace 3 (the scale) with (jframe.width / width) to make it possible
 		// to work after resizing the frame
-		int xDelta = Mouse.getX() - x * 3;
-		int yDelta = Mouse.getY() - y * 3;
+		int dx = Mouse.getX() - x * 3;
+		int dy = Mouse.getY() - y * 3;
 
-		angle = Math.atan2(yDelta, xDelta);
+		angle = Math.atan2(dy, dx);
 
 		if (-90 >= Math.toDegrees(angle) || Math.toDegrees(angle) >= 90) {
 			trans = AffineTransform.getScaleInstance(-1, 1);

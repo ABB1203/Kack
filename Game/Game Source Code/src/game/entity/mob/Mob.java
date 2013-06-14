@@ -1,16 +1,24 @@
 package game.entity.mob;
 
+import game.Game;
 import game.entity.Entity;
+import game.entity.projectile.GunProjectile;
+import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.gfx.Sprite;
 import game.level.tile.Tile;
+import game.weapon.Weapon;
 
 public class Mob extends Entity {
 
 	protected Sprite sprite;
+	protected Weapon weapon;
 	protected int dir = 0;
 	protected boolean moving = false;
 	protected boolean walking = false;
+	protected Game game;
+	protected double angle;
+	protected double fireRateCounter;
 
 	public void move(int xDir, int yDir) {
 		if (xDir != 0 && yDir != 0) {
@@ -32,6 +40,11 @@ public class Mob extends Entity {
 
 	public void tick() {
 
+	}
+	
+	protected void shoot(int x, int y, double angle, Weapon weapon) {
+		Projectile p = new GunProjectile(x, y, angle, weapon);
+		level.addProjectile(p);
 	}
 
 	public void render(Screen screen) {
@@ -57,5 +70,9 @@ public class Mob extends Entity {
 		Tile newTile = level.getTile((this.x + x + xDir) >> 4, (this.y + y + yDir) >> 4);
 		if (newTile.isSolid()) return true;
 		return false;
+	}
+	
+	public Weapon getWeapon() {
+		return weapon;
 	}
 }

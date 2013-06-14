@@ -1,5 +1,6 @@
 package game.weapon;
 
+import game.Game;
 import game.entity.mob.Player;
 import game.gfx.Sprite;
 import game.input.Mouse;
@@ -12,9 +13,11 @@ public class Weapon {
 
 	protected Sprite sprite;
 	protected BufferedImage image;
-	protected double speed, damage, range, fireRate, angle;
+	protected double speed, damage, range, fireRate, angle, shotsPerSec;
 	protected final Random random = new Random();
 	protected Mouse mouse;
+	protected double width, height;
+	protected Game game;
 	
 	
 	public Weapon() {
@@ -34,5 +37,25 @@ public class Weapon {
 			diff = Math.toRadians(-180) - angle;
 		}
 		return diff;
+	}
+	
+	public double getSpeed() {
+		return speed;
+	}
+	
+	public double getDamage() {
+		return damage;
+	}
+	
+	public double getFireRate() {
+		return fireRate;
+	}
+	
+	public double getRange() {
+		return range;
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
 	}
 }

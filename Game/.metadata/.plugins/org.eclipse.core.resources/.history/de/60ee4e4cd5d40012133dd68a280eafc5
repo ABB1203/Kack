@@ -1,0 +1,27 @@
+package game.entity.projectile;
+
+import game.entity.Entity;
+import game.gfx.Sprite;
+
+import java.util.Random;
+
+public class Projectile extends Entity {
+
+	protected final int xOrigin, yOrigin;
+	protected double angle;
+	protected Sprite sprite;
+	protected double x, y;
+	protected double distance;
+	protected double xNew, yNew;
+	protected double speed, fireRate, range, damage;
+	protected final Random random = new Random();
+	
+	public Projectile(int xOrigin, int yOrigin, double angle) {
+		this.xOrigin = xOrigin;
+		this.yOrigin = yOrigin;
+		this.angle = angle;
+		this.x = xOrigin;
+		this.y = yOrigin;
+	}
+
+}

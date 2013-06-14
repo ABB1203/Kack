@@ -18,9 +18,9 @@ import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
 
-	private int width;
-	private int height;
-	private int scale;
+	private static int width;
+	private static int height;
+	private static int scale;
 	private static int minTileSize;
 	private Dimension dimensions;
 
@@ -58,9 +58,9 @@ public class Game extends Canvas implements Runnable {
 		input = new InputHandler(this);
 		mouse = new Mouse(this);
 		level = new Level("/basicLevel.png");
-		player = new Player(input);
-		player.init(level);
 		weapon = new Gun();
+		player = new Player(input, weapon);
+		player.init(level);
 	}
 
 	public synchronized void start() {
@@ -126,7 +126,8 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		input.tick();
-		player.tick();
+		player.tick(screen.getXOffset(), screen.getYOffset());
+		level.tick();
 	}
 
 	int x = 0, y = 0;
@@ -163,15 +164,14 @@ public class Game extends Canvas implements Runnable {
 
 		g.dispose();
 		bs.show();
-
 	}
 
 	// ///////////////// GETTERS AND SETTERS////////////////////////////////////
-	public int getScreenWidth() {
+	public static int getScreenWidth() {
 		return width * scale;
 	}
 
-	public int getScreenHeight() {
+	public static int getScreenHeight() {
 		return height * scale;
 	}
 
