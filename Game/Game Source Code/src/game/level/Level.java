@@ -1,8 +1,9 @@
 package game.level;
 
 import game.Game;
-import game.entity.Entity;
+import game.entity.mob.Mob;
 import game.entity.mob.Player;
+import game.entity.mob.AI.AI;
 import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.level.tile.Tile;
@@ -24,7 +25,8 @@ public class Level {
 
 	protected Game game;
 
-	private List<Entity> entities = new ArrayList<Entity>();
+	private List<Mob> AIs = new ArrayList<Mob>();
+	private List<Mob> players = new ArrayList<Mob>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public Level(String path) {
@@ -49,12 +51,17 @@ public class Level {
 
 	}
 	
-	public void tick(int x, int y) {
-		for(int i = 0; i < entities.size(); i++) {
-			if(!(entities.get(i) instanceof Player))
-			entities.get(i).tick(x, y);
-			else entities.get(i).tick();
+	public void tick(int xOffset, int yOffset) {
+		for(int i = 0; i < players.size(); i++) {
+			players.get(i).tick(xOffset, yOffset);
+			
+			for(int j = 0; j < AIs.size(); j++) {
+				AIs.get(j).tick(players.get(i).getX(), players.get(i).getY());
+			}
 		}
+		
+		
+		
 		
 		for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).tick();
@@ -87,14 +94,22 @@ public class Level {
 			projectiles.get(i).render(screen);
 		}
 		
-		for(int i = 0; i < entities.size(); i++) {
-			entities.get(i).render(screen);
+		for(int i = 0; i < players.size(); i++) {
+			players.get(i).render(screen);
+		}
+		
+		for(int i = 0; i < AIs.size(); i++) {
+			AIs.get(i).render(screen);
 		}
 		
 	}
 	
-	public void add(Entity e) {
-		entities.add(e);
+	public void addAI(Mob m) {
+		AIs.add(m);
+	}
+	
+	public void addPlayer(Mob m) {
+		players.add(m);
 	}
 	
 	public void addProjectile(Projectile p) {

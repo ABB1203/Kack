@@ -3,13 +3,15 @@ package game.entity;
 import game.Game;
 import game.gfx.Screen;
 import game.level.Level;
+import game.level.tile.GrassTile;
 import game.level.tile.Tile;
+import game.level.tile.VoidTile;
 
 import java.util.Random;
 
 public abstract class Entity {
 
-	protected double x = 0, y = 350;
+	protected double x = 100, y = 350;
 	protected boolean removed = false;
 	protected final Random random = new Random();
 	protected Game game;
@@ -33,9 +35,9 @@ public abstract class Entity {
 		// test coordinates for the collision box
 		// these variables should be specific for each mob since their collision box is different
 		int xMin = 0;
-		int xMax = 16;
+		int xMax = 15;
 		int yMin = 0;
-		int yMax = 16;
+		int yMax = 15;
 
 		if (isSolidTile(xDir, yDir, xMin, yMin)) return true;
 		if (isSolidTile(xDir, yDir, xMax, yMin)) return true;

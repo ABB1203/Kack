@@ -38,6 +38,7 @@ public class Game extends Canvas implements Runnable {
 	private Weapon weapon;
 	private Mouse mouse;
 	private Mob ai;
+	private Mob ai2;
 
 	private BufferedImage image;
 	private int[] pixels;
@@ -64,8 +65,14 @@ public class Game extends Canvas implements Runnable {
 		weapon = new Gun();
 		player = new Player(input, weapon);
 		ai = new AI();
-		level.add(player);
-		level.add(ai);
+		ai2 = new AI();
+		level.addPlayer(player);
+		level.addAI(ai);
+		level.addAI(ai2);
+		level.addAI(new AI());
+		level.addAI(new AI());
+		level.addAI(new AI());
+		level.addAI(new AI());
 	}
 
 	public synchronized void start() {
@@ -131,8 +138,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		input.tick();
-		level.tick(player.getX(), player.getY());
-		player.tick(screen.getXOffset(), screen.getYOffset());
+		level.tick(screen.getXOffset(), screen.getYOffset());
 	}
 
 	int x = 0, y = 0;

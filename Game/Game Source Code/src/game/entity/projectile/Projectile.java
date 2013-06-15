@@ -15,7 +15,6 @@ public class Projectile extends Entity {
 	protected double angle;
 	protected Sprite sprite;
 	protected double x, y;
-	protected double distance;
 	protected double xDir, yDir;
 	protected double speed, fireRate, range, damage;
 	protected final Random random = new Random();
@@ -51,12 +50,10 @@ public class Projectile extends Entity {
 		y += yDir;
 
 		if (distance() >= range) remove();
-		if (hasCollided((int) xDir, (int) yDir)) {
-			remove();
-		}
+		if (hasCollided((int) xDir, (int) yDir)) remove();
 	}
 
-	public boolean isSolidTile(int xDir, int yDir, int x, int y) {
+	public boolean isSolidTile(double xDir, double yDir, int x, int y) {
 		Tile newTile = level.getTile((int) (this.x + x + xDir) >> 4, (int) (this.y + y + yDir) >> 4);
 		if (newTile.isSolid()) return true;
 		return false;
