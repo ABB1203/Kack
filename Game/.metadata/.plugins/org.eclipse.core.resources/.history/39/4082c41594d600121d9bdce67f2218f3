@@ -1,0 +1,15 @@
+package game.entity.mob.AI;
+
+public class Stalker extends AI{
+
+	public Stalker() {
+		sprite = sprite.rock;
+		speed = 0.5;
+		range = 200;
+	}
+	
+	public void tick(int xPlayer, int yPlayer) {
+		super.tick();
+	}
+	
+}

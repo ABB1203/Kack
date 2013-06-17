@@ -52,19 +52,13 @@ public class Screen {
 	public void renderMob(int xPos, int yPos, Mob mob) {
 		xPos -= xOffset;
 		yPos -= yOffset;
-		
 		for(int y = 0; y < mob.getSprite().getSize(); y++) {
 			int yAbsolute = y + yPos;
-			
-			if(yAbsolute < 0) yAbsolute = 0;
-			if(yAbsolute > height) yAbsolute = height;
-			
 			for(int x = 0; x < mob.getSprite().getSize(); x++) {
 				int xAbsolute = x + xPos;
-				
-
-				if(xAbsolute >= width || yAbsolute >= height) break;
+				if(xAbsolute < -mob.getSprite().getSize() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
 				if(xAbsolute < 0) xAbsolute = 0;
+				
 				pixels[xAbsolute + yAbsolute * width] = mob.getSprite().pixels[x + y * mob.getSprite().getSize()];
 				
 			}

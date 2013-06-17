@@ -1,0 +1,42 @@
+package game.entity.mob.AI;
+
+import game.gfx.Sprite;
+
+public class Stalker extends AI{
+
+	public Stalker() {
+		sprite = sprite.rock;
+		speed = 0.5;
+		range = 200;
+		xDir = 0.1;
+		yDir = 0.1;
+	}
+	
+	public void tick(int xPlayer, int yPlayer) {
+		super.tick();
+		
+		getLineEquation(xPlayer, yPlayer);
+		
+		//seenPlayer(xPlayer, yPlayer);
+	}
+	
+	private void getLineEquation(int xPlayer, int yPlayer) {
+		k = (yPlayer - y) / (xPlayer - x);
+		System.out.println(k);
+		m = y - k * x;
+		System.out.println("y = " + k + "x + " + m);
+		
+		y = kx + m;
+		m = y - kx;
+	}
+	
+	protected boolean seenPlayer(int xPlayer, int yPlayer) {
+		int tileSize = game.getTileSize();
+		
+		double angle = Math.atan2(yPlayer - y, xPlayer - x);
+		
+		System.out.println(Math.toDegrees(angle));
+		
+		return true;
+	}
+}

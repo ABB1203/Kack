@@ -1,0 +1,31 @@
+package game.entity.mob.AI;
+
+import game.gfx.Sprite;
+
+public class Stalker extends AI{
+
+	public Stalker() {
+		sprite = sprite.rock;
+		speed = 0.5;
+		range = 200;
+		xDir = 0.1;
+		yDir = 0.1;
+	}
+	
+	public void tick(int xPlayer, int yPlayer) {
+		super.tick();
+		
+		if(seenPlayer(xPlayer, yPlayer)) {
+			System.out.println("Sees player");
+		} else System.out.println("Cannot see player");
+	}
+	
+	
+	protected boolean seenPlayer(int xPlayer, int yPlayer) {
+		int tileSize = game.getTileSize();
+
+		level.getTile((int)x, (int)y).setSprite(Sprite.shot);
+		
+		return true;
+	}
+}

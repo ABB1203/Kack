@@ -1,23 +1,28 @@
 package game.entity.mob.AI;
 
 import game.entity.mob.Mob;
+import game.entity.mob.Player;
 
 public class AI extends Mob {
 
 	protected int tickCount;
-	protected int randomTick = randomTick();
+	protected int randomTick;
 	protected int range;
 	// Makes the AI move into a random direction if it somehow gets stuck or
 	// trapped by the player
 	protected boolean collided;
+	protected boolean seenPlayer;
+	protected double k, m;
 
 	public AI() {
+		this.level = level;
 		sprite = sprite.voidSprite;
 		speed = 0.5;
-		range = 100;
+		range = 200;
+		randomTick = randomTick();
 	}
 
-	public void tick(int xPlayer, int yPlayer) {
+	public void tick(Mob player) {
 		super.tick();
 
 		tickCount++;
@@ -26,15 +31,13 @@ public class AI extends Mob {
 			tickCount = 0;
 			randomTick = randomTick();
 
-			double dx = xPlayer - x;
-			double dy = yPlayer - y;
+			double dx = player.getX() - x;
+			double dy = player.getY() - y;
 
-			if (range >= distance(xPlayer, yPlayer) && !collided) angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(90) - 45);
+			if (range >= distance(player.getX(), player.getY()) && !collided) angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(120) - 60);
 			else {
 				while (true) {
 					angle = Math.toRadians(random.nextInt(360));
-					xDir = Math.cos(angle) * speed;
-					yDir = Math.sin(angle) * speed;
 					if(!hasCollided(xDir, yDir)) break;
 				}
 				collided = false;
@@ -49,7 +52,6 @@ public class AI extends Mob {
 	}
 
 	protected void move(double xDir, double yDir) {
-		System.out.println(!hasCollided(xDir, yDir));
 		if (!hasCollided(xDir, yDir)) {
 			x += xDir;
 			y += yDir;

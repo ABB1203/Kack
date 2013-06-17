@@ -3,6 +3,7 @@ package game.entity.projectile;
 import game.entity.Entity;
 import game.gfx.Screen;
 import game.gfx.Sprite;
+import game.level.Level;
 import game.level.tile.Tile;
 import game.weapon.Weapon;
 

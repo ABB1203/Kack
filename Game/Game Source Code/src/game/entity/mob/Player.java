@@ -1,10 +1,10 @@
 package game.entity.mob;
 
-import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.gfx.Sprite;
 import game.input.InputHandler;
 import game.input.Mouse;
+import game.level.Level;
 import game.weapon.Weapon;
 
 public class Player extends Mob {

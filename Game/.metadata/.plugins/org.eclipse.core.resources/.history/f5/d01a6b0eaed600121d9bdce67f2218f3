@@ -1,0 +1,66 @@
+package game.entity.mob.AI;
+
+import game.level.Level;
+
+public class Stalker extends AI {
+
+	public Stalker() {
+		sprite = sprite.shot;
+		speed = 0.5;
+		range = 200;
+		xDir = 0.1;
+		yDir = 0.1;
+	}
+
+	public void tick(int xPlayer, int yPlayer) {
+		super.tick();
+
+		seesPlayer(xPlayer, yPlayer);
+
+		// System.out.println(seesPlayer(xPlayer, yPlayer));
+	}
+
+	private void getLineEquation(int x0, int x1, int y0, int y1) {
+		// Multiplying with 1.0 makes it possible for the value of k to be a
+		// double
+		k = (y0 - y1) * 1.0 / (x0 - x1) * 1.0;
+		m = y0 - x0 * k;
+
+	}
+
+	protected boolean seesPlayer(int xPlayer, int yPlayer) {
+		int tileSize = game.getTileSize();
+
+		if (x != xPlayer) getLineEquation((int) x >> 4, xPlayer >> 4, (int) y >> 4, yPlayer >> 4);
+		else k = 999999999;
+
+		// System.out.println("y = " + k + "x + " + m);
+
+		int x0 = (int) ((x < xPlayer) ? x : xPlayer) >> 4;
+		int x1 = (int) ((x > xPlayer) ? x : xPlayer) >> 4;
+		int y0 = (int) ((y < yPlayer) ? y : yPlayer) >> 4;
+		int y1 = (int) ((y > yPlayer) ? y : yPlayer) >> 4;
+
+//		System.out.println("x0: " + x0);
+//		System.out.println("x1: " + x1);
+//		System.out.println("y0: " + y0);
+//		System.out.println("y1: " + y1);
+
+		level.generateLevel();
+
+		for (int yy = y0; yy < y1; yy++) {
+			for (int xx = x0; xx < x1; xx++) {
+				System.out.print(yy + "\t" + (xx*k+m));
+				if (yy == (int) (xx * k + m)) {
+					System.out.println("%%%%%%%%%%%%");
+					if (level.getTile(xx, yy).isSolid()) {
+						System.out.println(xx + yy * (level.getWidth() >> 4));
+						return false;
+					}
+				} else System.out.println();
+			}
+		}
+
+		return true;
+	}
+}

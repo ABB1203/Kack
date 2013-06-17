@@ -1,6 +1,6 @@
 package game.entity.projectile;
 
-import game.gfx.Sprite;
+import game.level.Level;
 import game.weapon.Weapon;
 
 public class GunProjectile extends Projectile {

@@ -1,0 +1,74 @@
+package game.entity.mob.AI;
+
+import game.entity.mob.Mob;
+import game.entity.mob.Player;
+
+public class Stalker extends AI {
+
+	public Stalker() {
+		sprite = sprite.shot;
+		speed = 0.5;
+		range = 200;
+		xDir = 0.1;
+		yDir = 0.1;
+	}
+	int i = 0;
+
+	public void tick(Mob player) {
+
+		// seesPlayer(player);
+
+		if (seesPlayer(player)) {
+			i++;
+			System.out.println(i);
+		}
+	}
+
+	private void getLineEquation(double x0, double x1, double y0, double y1) {
+		k = (y0 - y1) / (x0 - x1);
+		m = y0 - x0 * k;
+	}
+	
+	private void getLineEquation2(int x0, int x1, int y0, int y1) {
+		k = (y0 - y1)  * 1.0 / (x0 - x1) * 1.0;
+		m = y0 - x0 * k;
+	}
+
+	protected boolean seesPlayer(Mob player) {
+		int tileSize = game.getTileSize();
+
+		if (x != player.getX()) getLineEquation(x - getSprite().getSize() / 2, player.getX() - player.getSprite().getSize() / 2, y - getSprite().getSize() / 2, player.getY() - player.getSprite().getSize() / 2);
+		else k = 999999999;
+
+		// System.out.println("y = " + k + "x + " + m);
+
+		int x0 = (int) ((x < player.getX()) ? x : player.getX()) >> 4;
+		int x1 = (int) ((x > player.getX()) ? x : player.getX()) >> 4;
+		int y0 = (int) ((y < player.getY()) ? y : player.getY()) >> 4;
+		int y1 = (int) ((y > player.getY()) ? y : player.getY()) >> 4;
+
+		// System.out.println("x0: " + x0);
+		// System.out.println("x1: " + x1);
+		// System.out.println("y0: " + y0);
+		// System.out.println("y1: " + y1);
+
+		for (int yy = y0; yy <= y1; yy++) {
+			if (x0 != x1) {
+				for (int xx = x0; xx <= x1; xx++) {
+					if (level.getTile(xx, yy).isSolid()) {
+						if (yy <= xx * k + ((int) m >> 4) && xx * k + ((int) m >> 4) < yy + 1) return false;
+						if (xx <= (yy - ((int) m >> 4)) / k && (yy - ((int) m >> 4)) / k < xx + 1) return false;
+					}
+
+				}
+			} else {
+				if (level.getTile(x1, yy).isSolid()) {
+					if (yy <= x0 * k + ((int) m >> 4) && x0 * k + ((int) m >> 4) <= yy + 1) return false;
+					if (x0 <= (yy - ((int) m >> 4)) / k && (yy - ((int) m >> 4)) / k <= x0 + 1) return false;
+				}
+			}
+		}
+
+		return true;
+	}
+}

@@ -3,6 +3,7 @@ package game;
 import game.entity.mob.Mob;
 import game.entity.mob.Player;
 import game.entity.mob.AI.AI;
+import game.entity.mob.AI.Stalker;
 import game.gfx.Screen;
 import game.input.InputHandler;
 import game.input.Mouse;
@@ -37,8 +38,6 @@ public class Game extends Canvas implements Runnable {
 	private Mob player;
 	private Weapon weapon;
 	private Mouse mouse;
-	private Mob ai;
-	private Mob ai2;
 
 	private BufferedImage image;
 	private int[] pixels;
@@ -64,15 +63,19 @@ public class Game extends Canvas implements Runnable {
 		level = new Level("/basicLevel.png");
 		weapon = new Gun();
 		player = new Player(input, weapon);
-		ai = new AI();
-		ai2 = new AI();
 		level.addPlayer(player);
-		level.addAI(ai);
-		level.addAI(ai2);
-		level.addAI(new AI());
-		level.addAI(new AI());
-		level.addAI(new AI());
-		level.addAI(new AI());
+		
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
+		level.addAI(new Stalker());
 	}
 
 	public synchronized void start() {

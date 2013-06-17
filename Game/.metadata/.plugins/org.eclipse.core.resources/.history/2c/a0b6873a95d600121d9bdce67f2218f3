@@ -1,0 +1,32 @@
+package game.entity.mob.AI;
+
+public class Stalker extends AI{
+
+	public Stalker() {
+		sprite = sprite.rock;
+		speed = 0.5;
+		range = 200;
+	}
+	
+	public void tick(int xPlayer, int yPlayer) {
+		super.tick();
+		
+		
+	}
+	
+	
+	protected boolean seenPlayer(int xPlayer, int yPlayer) {
+		int tileSize = game.getTileSize();
+		
+		int x0 = (int) ((xPlayer < x) ? xPlayer : x);
+		
+		int dx = (int)(xPlayer - x);
+		int dy = (int)(yPlayer - y);
+		
+		for(int y = 0; y < dy; y += tileSize) {
+			
+		}
+		
+		return false;
+	}
+}

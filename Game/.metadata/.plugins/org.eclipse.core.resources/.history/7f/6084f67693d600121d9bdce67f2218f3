@@ -1,0 +1,11 @@
+package game.entity.mob.AI;
+
+public class Stalker extends AI{
+
+	public Stalker() {
+		sprite = sprite.voidSprite;
+		speed = 0.5;
+		range = 200;
+	}
+	
+}

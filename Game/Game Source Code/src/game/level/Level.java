@@ -25,7 +25,7 @@ public class Level {
 
 	protected Game game;
 
-	private List<Mob> AIs = new ArrayList<Mob>();
+	private List<AI> AIs = new ArrayList<AI>();
 	private List<Mob> players = new ArrayList<Mob>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 
@@ -33,7 +33,7 @@ public class Level {
 		loadLevel(path);
 		generateLevel();
 	}
-
+	
 	protected void loadLevel(String path) {
 		try {
 			BufferedImage image = ImageIO.read(Level.class.getResource(path));
@@ -54,14 +54,11 @@ public class Level {
 	public void tick(int xOffset, int yOffset) {
 		for(int i = 0; i < players.size(); i++) {
 			players.get(i).tick(xOffset, yOffset);
-			
-			for(int j = 0; j < AIs.size(); j++) {
-				AIs.get(j).tick(players.get(i).getX(), players.get(i).getY());
-			}
 		}
 		
-		
-		
+		for(int i = 0; i < AIs.size(); i++) {
+			AIs.get(i).tick(players.get(0));
+		}
 		
 		for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).tick();
@@ -104,8 +101,8 @@ public class Level {
 		
 	}
 	
-	public void addAI(Mob m) {
-		AIs.add(m);
+	public void addAI(AI ai) {
+		AIs.add(ai);
 	}
 	
 	public void addPlayer(Mob m) {
