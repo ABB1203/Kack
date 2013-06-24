@@ -20,10 +20,10 @@ public class Gun extends Weapon {
 		sprite = Sprite.shot;
 		
 		// These properties are just random
-		speed = 4;
+		speed = 2;
 		damage = 1;
 		range = 200;
-		shotsPerSec = 5;
+		shotsPerSec = 3;
 		// 60 is ups (fireRate = number of updates that are between each shot)
 		fireRate = 60 / shotsPerSec;
 		

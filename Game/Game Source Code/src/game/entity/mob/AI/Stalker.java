@@ -2,13 +2,18 @@ package game.entity.mob.AI;
 
 import game.Game;
 import game.entity.mob.Mob;
+import game.entity.mob.Player;
 import game.level.Level;
 
 public class Stalker extends AI {
 
-	public Stalker(Level level, Game game) {
+	// These names are extremely confusing... damageCount is the variable
+	// counting down (until damage can be done again), damageCounter is the
+	// value damageCount is reset to
+	protected int damageCount, damageCounter;
+	
+	public Stalker(Game game) {
 		super(game);
-		this.level = level;
 		sprite = sprite.shot;
 		speed = 1;
 		range = 200;
@@ -23,14 +28,27 @@ public class Stalker extends AI {
 	}
 
 	public void tick() {
-		// This just gets the player
-		Mob player = level.getPlayers().get(0);
-		
 		super.tick();
+
+		damageCount--;
+
+		// Checks collision with players
+		for (Mob m : level.getPlayers()) {
+			if (getCollisionBox(xDir, yDir).intersects(m.getCollisionBox())) {
+				if (damageCount <= 0) {
+					damageCount = damageCounter;
+					m.damage(damage);
+				}
+			}
+		}
+		
+		// This just gets the player
+		Player player = game.getPlayer();
+		
 
 		tickCount++;
 
-		if (seesPlayer(player)) {
+		if (sees(player)) {
 			seenPlayer = true;
 		}
 
@@ -58,61 +76,5 @@ public class Stalker extends AI {
 		}
 
 		move(xDir, yDir);
-	}
-
-	private void getLineEquation(double x0, double x1, double y0, double y1) {
-		k = (y0 - y1) / (x0 - x1);
-		m = (y0 - x0 * k) / 16;
-	}
-
-	protected boolean seesPlayer(Mob player) {
-		if (x != player.getX()) getLineEquation(x + sprite.getSize() / 2, player.getX() + player.getSprite().getSize() / 2, y + sprite.getSize() / 2, player.getY() + player.getSprite().getSize() / 2);
-		
-		double x0 = ((x < player.getX()) ? x : player.getX()) / 16;
-		double x1 = (((x + sprite.getSize() > player.getX() + player.getSprite().getSize()) ? x + sprite.getSize() : player.getX() + player.getSprite().getSize()) - 1) / 16;
-		double y0 = ((y < player.getY()) ? y : player.getY()) / 16;
-		double y1 = (((y + sprite.getSize() > player.getY() + player.getSprite().getSize()) ? y + sprite.getSize() : player.getY() + player.getSprite().getSize()) - 1) / 16;
-
-		for (double yy = y0; yy < y1; yy ++) {
-			if ((int)x0 != (int)x1) {
-				for (double xx = x0; xx <= x1; xx++) {
-					
-					if (level.getTile((int)xx, (int)yy).isSolid()) {
-						if (yy <= xx * k + m && xx * k + m < yy + 1) return false;
-						if (xx <= (yy - m) / k && (yy - m) / k < xx + 1) return false;
-					}
-				}
-			} else if (level.getTile((int)x1, (int)yy).isSolid()) return false;
-		}
-
-		if (x != player.getX()) getLineEquation(x + sprite.getSize() / 2 + 1, player.getX() + player.getSprite().getSize() / 2, y + sprite.getSize() / 2, player.getY() + player.getSprite().getSize() / 2);
-		
-		// The value of the first parameter is changed (+1). By doing this, it
-		// prevents the AI to spot the player when the situation is like this:
-		// P = player
-		// M = AI
-		// X = wall
-		// PX
-		// XM
-		// If this would not be done, the AI would be able to look through the
-		// walls
-		
-		for (double yy = y0; yy < y1; yy ++) {
-			if ((int)x0 != (int)x1) {
-				for (double xx = x0; xx <= x1; xx++) {
-					
-					if (level.getTile((int)xx, (int)yy).isSolid()) {
-						if (yy <= xx * k + m && xx * k + m < yy + 1) return false;
-						if (xx <= (yy - m) / k && (yy - m) / k < xx + 1) return false;
-					}
-				}
-			} else if (level.getTile((int)x1, (int)yy).isSolid()) return false;
-		}
-		
-		return true;
-	}
-	
-	public boolean isCollidableWithPlayer() {
-		return true;
 	}
 }

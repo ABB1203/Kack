@@ -1,0 +1,67 @@
+package game.entity.mob.AI;
+
+import game.Game;
+import game.entity.mob.Player;
+import game.level.Level;
+
+public class Gunner extends AI {
+
+	public Gunner(Level level, Game game) {
+		super(game);
+		this.level = level;
+		sprite = sprite.voidSprite;
+		speed = 1;
+		health = 2;
+		randomTick = randomTick();
+	}
+
+	public void tick() {
+		super.tick();
+
+		Player player = game.getPlayer();
+
+		tickCount++;
+
+		if (seesPlayer(player)) {
+			if (xDir == 0 && yDir == 0) {
+				// small possibility to shoot
+			}
+		}
+
+		if (tickCount >= randomTick) {
+			tickCount = 0;
+			randomTick = randomTick();
+
+			double dx = player.getX() - x;
+			double dy = player.getY() - y;
+
+			if(random.nextInt(3) != 0 || (xDir != 0 && yDir != 0)) {
+				if(seesPlayer(player) && random.nextBoolean() && !shot) {
+					System.out.println("shoot");
+					shot = true;
+				} 
+
+				xDir = 0;
+				yDir = 0;
+			} else {
+				angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(90) - 45);
+				xDir = Math.cos(angle) * speed;
+				yDir = Math.sin(angle) * speed;
+			}
+			
+			/*if (random.nextInt(4) < 3 && seesPlayer(player)) {
+				System.out.println("shhoot");
+				xDir = 0;
+				yDir = 0;
+			} else {
+				angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(90) - 45);
+				xDir = Math.cos(angle) * speed;
+				yDir = Math.sin(angle) * speed;
+			}*/
+		}
+		
+		move(xDir, yDir);
+
+	}
+
+}

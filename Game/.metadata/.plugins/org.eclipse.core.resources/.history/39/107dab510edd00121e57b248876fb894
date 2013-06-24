@@ -1,0 +1,61 @@
+package game.entity.mob.AI;
+
+import game.Game;
+import game.entity.mob.Player;
+import game.weapon.Gun;
+
+public class Gunner extends AI {
+
+	public Gunner(Game game) {
+		super(game);
+		sprite = sprite.voidSprite;
+		speed = 1;
+		health = 2;
+		weapon = new Gun();
+	}
+
+	public void tick() {
+		super.tick();
+
+		Player player = game.getPlayer();
+
+		tickCount++;
+
+		if (tickCount >= randomTick) {
+			tickCount = 0;
+			randomTick = randomTick();
+
+			double dx = player.getX() - x;
+			double dy = player.getY() - y;
+
+			// If it has been moving or 67 % if it has been still
+			if (random.nextInt(3) != 0 || (xDir != 0 && yDir != 0)) {
+				
+				// 20 % chance if it has not shot during the last random tick
+				if (sees(player) && random.nextInt(3) == 0 && !hasRecentlyShot) {
+					angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(90) - 45);	
+					shoot((int)x, (int)y, angle, weapon);
+					hasRecentlyShot = true;
+				} else hasRecentlyShot = false;
+
+				xDir = 0;
+				yDir = 0;
+				
+			// The AI will move
+			} else {
+				if(sees(player)) {
+					angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(90) - 45);	
+				} else {
+					angle = Math.toRadians(random.nextInt(360));
+				}
+				xDir = Math.cos(angle) * speed;
+				yDir = Math.sin(angle) * speed;
+				hasRecentlyShot = false;
+			}
+		}
+
+		move(xDir, yDir);
+
+	}
+
+}

@@ -1,0 +1,56 @@
+package game.entity.mob.AI;
+
+import game.Game;
+import game.entity.mob.Player;
+import game.level.Level;
+
+public class Gunner extends AI {
+
+	public Gunner(Game game) {
+		super(game);
+		sprite = sprite.voidSprite;
+		speed = 1;
+		health = 2;
+	}
+
+	public void tick() {
+		super.tick();
+
+		Player player = game.getPlayer();
+
+		tickCount++;
+
+		if (tickCount >= randomTick) {
+			tickCount = 0;
+			randomTick = randomTick();
+
+			double dx = player.getX() - x;
+			double dy = player.getY() - y;
+
+			if (random.nextInt(3) != 0 || (xDir != 0 && yDir != 0)) {
+				if (seesPlayer(player) && random.nextInt(5) == 0 && !hasRecentlyShot) {
+					System.out.println("shoot     @ gunner : tick");
+					hasRecentlyShot = true;
+				} else hasRecentlyShot = false;
+
+				xDir = 0;
+				yDir = 0;
+			} else {
+				if(seesPlayer(player)) {
+					angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(90) - 45);	
+				} else {
+					angle = Math.toRadians(random.nextInt(360));
+				}
+				xDir = Math.cos(angle) * speed;
+				yDir = Math.sin(angle) * speed;
+				hasRecentlyShot = false;
+			}
+		}
+		
+		System.out.println(hasRecentlyShot);
+
+		move(xDir, yDir);
+
+	}
+
+}

@@ -3,6 +3,7 @@ package game;
 import game.entity.mob.Mob;
 import game.entity.mob.Player;
 import game.entity.mob.AI.AI;
+import game.entity.mob.AI.Gunner;
 import game.entity.mob.AI.Stalker;
 import game.gfx.Screen;
 import game.input.InputHandler;
@@ -62,11 +63,15 @@ public class Game extends Canvas implements Runnable {
 		mouse = new Mouse(this);
 		level = new Level("/basicLevel.png");
 		weapon = new Gun();
-		player = new Player(input, weapon, level, this);
+		player = new Player(input, weapon, this);
 		level.addPlayer(player);
 		
 		for(int i = 0; i < 10; i++) {
-			level.addAI(new Stalker(level, this));
+			level.addAI(new Gunner(this));
+		}
+		
+		for(int i = 0; i < 10; i++) {
+			level.addAI(new Stalker(this));
 		}
 	}
 
@@ -134,6 +139,11 @@ public class Game extends Canvas implements Runnable {
 	public void tick() {
 		input.tick();
 		level.tick();
+		
+		if(level.getAIs().size() == 0) {
+			System.out.println("You have won!");
+			stop();
+		}
 	}
 
 	int x = 0, y = 0;
@@ -196,5 +206,13 @@ public class Game extends Canvas implements Runnable {
 	
 	public Screen getScreen() {
 		return screen;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public Level getLevel() {
+		return level;
 	}
 }
