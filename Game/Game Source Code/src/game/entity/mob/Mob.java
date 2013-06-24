@@ -2,17 +2,17 @@ package game.entity.mob;
 
 import game.Game;
 import game.entity.Entity;
+import game.entity.mob.AI.AI;
 import game.entity.projectile.GunProjectile;
 import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.gfx.Sprite;
-import game.level.Level;
 import game.weapon.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mob extends Entity {
+public abstract class Mob extends Entity {
 
 	protected Sprite sprite;
 	protected Weapon weapon;
@@ -24,8 +24,17 @@ public class Mob extends Entity {
 	protected double fireRateCounter;
 	protected double xDir, yDir;
 	protected double speed;
+	protected double health;
+	protected boolean dead = false;
 
 	protected List<Projectile> projectiles = new ArrayList<Projectile>();
+	
+	protected void tick() {
+		if(dead) {
+			remove();
+			level.removeMob(this);
+		}
+	}
 
 	protected void move(double xDir, double yDir) {
 		if (xDir != 0 && yDir != 0) {
@@ -44,43 +53,41 @@ public class Mob extends Entity {
 			y += yDir;
 		}
 	}
-	
-	public void tick(int x, int y) {}
 
-	public void tick() {
-	}
-	
 	protected void shoot(int x, int y, double angle, Weapon weapon) {
-		Projectile p = new GunProjectile(x, y, angle, weapon);
+		Projectile p = new GunProjectile(x, y, angle, weapon, level);
 		level.addProjectile(p);
-		addProjectile(p);
+		projectiles.add(p);
 	}
 
 	public void render(Screen screen) {
-		screen.renderMob((int)x, (int)y, this);
+		screen.renderMob((int) x, (int) y, this);
 	}
-	
+
 	protected void clear() {
-		for(int i = 0; i < level.getProjectiles().size(); i++) {
+		for (int i = 0; i < level.getProjectiles().size(); i++) {
 			Projectile p = level.getProjectiles().get(i);
-			if(p.isRemoved()) level.getProjectiles().remove(i);
+			if (p.isRemoved()) level.getProjectiles().remove(i);
 		}
 	}
-	
-	protected void addProjectile(Projectile p) {
-		
+
+	public void damage(double damage) {
+		health -= damage;
+		if (health <= 0) {
+			dead = true;
+		}
 	}
-	
+
 	public Weapon getWeapon() {
 		return weapon;
 	}
 
 	public int getX() {
-		return (int)x;
+		return (int) x;
 	}
 
 	public int getY() {
-		return (int)y;
+		return (int) y;
 	}
 
 	public Sprite getSprite() {

@@ -1,9 +1,11 @@
 package game.entity.mob.AI;
 
+import java.awt.Rectangle;
+
 import game.entity.mob.Mob;
 import game.entity.mob.Player;
 
-public class AI extends Mob {
+public abstract class AI extends Mob {
 
 	protected int tickCount;
 	protected int randomTick;
@@ -15,7 +17,6 @@ public class AI extends Mob {
 	protected double k, m;
 
 	public AI() {
-		this.level = level;
 		sprite = sprite.voidSprite;
 		speed = 0.5;
 		range = 200;
@@ -25,30 +26,31 @@ public class AI extends Mob {
 	public void tick(Mob player) {
 		super.tick();
 
-		tickCount++;
-
-		if (tickCount > randomTick || collided) {
-			tickCount = 0;
-			randomTick = randomTick();
-
-			double dx = player.getX() - x;
-			double dy = player.getY() - y;
-
-			if (range >= distance(player.getX(), player.getY()) && !collided) angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(120) - 60);
-			else {
-				while (true) {
-					angle = Math.toRadians(random.nextInt(360));
-					if(!hasCollided(xDir, yDir)) break;
-				}
-				collided = false;
-			}
-		
-			xDir = Math.cos(angle) * speed;
-			yDir = Math.sin(angle) * speed;
-
-		}
-
-		move(xDir, yDir);
+//		tickCount++;
+//
+//		if (tickCount > randomTick || collided) {
+//			tickCount = 0;
+//			randomTick = randomTick();
+//
+//			double dx = player.getX() - x;
+//			double dy = player.getY() - y;
+//
+//			if (range >= distance(player.getX(), player.getY()) && !collided) angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(60) - 30);
+//			else {
+//				while (true) {
+//					angle += Math.toRadians(random.nextInt(120) - 60);
+//					xDir = Math.cos(angle) * speed;
+//					yDir = Math.sin(angle) * speed;
+//					if (!hasCollided(xDir, yDir)) break;
+//				}
+//				collided = false;
+//			}
+//
+//			xDir = Math.cos(angle) * speed;
+//			yDir = Math.sin(angle) * speed;
+//		}
+//
+//		move(xDir, yDir);
 	}
 
 	protected void move(double xDir, double yDir) {
@@ -56,6 +58,23 @@ public class AI extends Mob {
 			x += xDir;
 			y += yDir;
 		} else collided = true;
+	}
+
+	protected boolean hasCollided(double xDir, double yDir) {
+		if (super.hasCollided(xDir, yDir)) {
+			seenPlayer = false;
+			return true;
+		}
+
+		for (AI ai : level.getAIs()) {
+			if (!ai.equals(this)) {
+				if (getCollisionBox(xDir, yDir).intersects(ai.getCollisionBox())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	protected double distance(int xPlayer, int yPlayer) {
@@ -67,11 +86,7 @@ public class AI extends Mob {
 	protected int randomTick() {
 		// This gives a random value to how many ticks the AI should wait. If
 		// not updated, the number of ticks should be 60 each second
+		if (random.nextBoolean() && random.nextBoolean()) remove();
 		return 60 + random.nextInt(90);
 	}
-
-	protected int randomAngle() {
-		return random.nextInt(360);
-	}
-
 }

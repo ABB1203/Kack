@@ -27,13 +27,14 @@ public class Level {
 
 	private List<AI> AIs = new ArrayList<AI>();
 	private List<Mob> players = new ArrayList<Mob>();
+	private List<Mob> mobs = new ArrayList<Mob>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public Level(String path) {
 		loadLevel(path);
 		generateLevel();
 	}
-	
+
 	protected void loadLevel(String path) {
 		try {
 			BufferedImage image = ImageIO.read(Level.class.getResource(path));
@@ -50,17 +51,17 @@ public class Level {
 	protected void generateLevel() {
 
 	}
-	
+
 	public void tick(int xOffset, int yOffset) {
-		for(int i = 0; i < players.size(); i++) {
-			players.get(i).tick(xOffset, yOffset);
+		for (int i = 0; i < players.size(); i++) {
+			((Player) players.get(i)).tick(xOffset, yOffset);
 		}
-		
-		for(int i = 0; i < AIs.size(); i++) {
+
+		for (int i = 0; i < AIs.size(); i++) {
 			AIs.get(i).tick(players.get(0));
 		}
-		
-		for(int i = 0; i < projectiles.size(); i++) {
+
+		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).tick();
 		}
 	}
@@ -86,31 +87,39 @@ public class Level {
 				getTile(x, y).render(x, y, screen);
 			}
 		}
-		
-		for(int i = 0; i < projectiles.size(); i++) {
+
+		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).render(screen);
 		}
-		
-		for(int i = 0; i < players.size(); i++) {
+
+		for (int i = 0; i < players.size(); i++) {
 			players.get(i).render(screen);
 		}
-		
-		for(int i = 0; i < AIs.size(); i++) {
+
+		for (int i = 0; i < AIs.size(); i++) {
 			AIs.get(i).render(screen);
 		}
-		
+
 	}
-	
+
 	public void addAI(AI ai) {
 		AIs.add(ai);
+		mobs.add(ai);
 	}
-	
+
 	public void addPlayer(Mob m) {
 		players.add(m);
+		mobs.add(m);
 	}
-	
+
 	public void addProjectile(Projectile p) {
 		projectiles.add(p);
+	}
+	
+	public void removeMob(Mob m) {
+		mobs.remove(m);
+		if(m instanceof AI) AIs.remove(m);
+		if(m instanceof Player) players.remove(m);
 	}
 
 	public Tile getTile(int x, int y) {
@@ -130,8 +139,16 @@ public class Level {
 		// From tile width to pixel width
 		return height << 4;
 	}
-	
+
 	public List<Projectile> getProjectiles() {
 		return projectiles;
+	}
+
+	public List<AI> getAIs() {
+		return AIs;
+	}
+
+	public List<Mob> getPlayers() {
+		return players;
 	}
 }

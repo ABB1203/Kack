@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;y&apos; in &apos;game.entity.projectile.Projectile.hasHitMob(...)&apos; to &apos;yp&apos;&#x0D;&#x0A;- Original project: &apos;Game Source Code&apos;&#x0D;&#x0A;- Original element: &apos;game.entity.projectile.Projectile.hasHitMob(int, int, List&lt;Mob&gt;).y&apos;&#x0D;&#x0A;- Renamed element: &apos;y&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;y&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;game.entity.projectile{Projectile.java[Projectile~hasHitMob~I~I~QList\&lt;QMob;&gt;;@y!1517!1528!1521!1521!I!0!false" name="yp" references="true" stamp="1371583242022" version="1.0"/>
+</session>

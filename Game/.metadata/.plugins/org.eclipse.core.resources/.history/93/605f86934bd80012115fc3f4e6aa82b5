@@ -1,0 +1,18 @@
+package game.entity.projectile;
+
+import game.entity.mob.Mob;
+import game.entity.mob.AI.AI;
+import game.weapon.Weapon;
+
+import java.util.List;
+
+public class GunProjectile extends Projectile {
+
+	public GunProjectile(int xOrigin, int yOrigin, double angle, Weapon weapon) {
+		super(xOrigin, yOrigin, angle, weapon);
+	}
+	
+	public void tick(List<Mobs> mobs) {
+		move(AIs, players);
+	}
+}

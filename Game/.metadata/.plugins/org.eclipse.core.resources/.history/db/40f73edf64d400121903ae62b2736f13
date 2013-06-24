@@ -1,5 +1,0 @@
-package game.weapon;
-
-public class Gun extends Weapon {
-
-}

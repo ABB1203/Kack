@@ -21,9 +21,9 @@ public class Gun extends Weapon {
 		
 		// These properties are just random
 		speed = 4;
-		damage = 20;
+		damage = 1;
 		range = 200;
-		shotsPerSec = 3;
+		shotsPerSec = 5;
 		// 60 is ups (fireRate = number of updates that are between each shot)
 		fireRate = 60 / shotsPerSec;
 		

@@ -1,14 +1,16 @@
 package game.entity.mob.AI;
 
 import game.entity.mob.Mob;
-import game.entity.mob.Player;
+import game.level.Level;
 
 public class Stalker extends AI {
 
-	public Stalker() {
+	public Stalker(Level level) {
+		this.level = level;
 		sprite = sprite.shot;
 		speed = 1;
 		range = 200;
+		health = 2;
 		randomTick = randomTick();
 	}
 
@@ -21,7 +23,7 @@ public class Stalker extends AI {
 			seenPlayer = true;
 		}
 
-		if (tickCount > randomTick || collided) {
+		if (tickCount >= randomTick || collided) {
 			tickCount = 0;
 			randomTick = randomTick();
 
@@ -30,8 +32,6 @@ public class Stalker extends AI {
 
 			if (collided) {
 				angle = Math.toRadians(random.nextInt(360));
-
-				seenPlayer = false;
 				collided = false;
 			} else {
 				if (seenPlayer) {
@@ -99,5 +99,13 @@ public class Stalker extends AI {
 		}
 		
 		return true;
+	}
+
+	public void tick(int x, int y) {
+		
+	}
+
+	public void tick() {
+		
 	}
 }

@@ -4,4 +4,8 @@
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="game.gfx.Screen"/>
+<fullyQualifiedTypeName name="game.level.tile.GrassTile"/>
+<fullyQualifiedTypeName name="game.level.tile.VoidTile"/>
+<fullyQualifiedTypeName name="game.entity.mob.AI.Stalker"/>
+<fullyQualifiedTypeName name="game.level.Level"/>
 </qualifiedTypeNameHistroy>

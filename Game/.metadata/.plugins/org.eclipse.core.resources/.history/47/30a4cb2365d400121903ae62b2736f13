@@ -1,9 +1,0 @@
-package game.weapon;
-
-public class Gun extends Weapon {
-
-	
-	public Gun() {
-		this.sprite = Sprite.gun;
-	}
-}
