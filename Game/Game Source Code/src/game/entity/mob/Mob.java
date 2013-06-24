@@ -19,7 +19,6 @@ public abstract class Mob extends Entity {
 	protected int dir = 0;
 	protected boolean moving = false;
 	protected boolean walking = false;
-	protected Game game;
 	protected double angle;
 	protected double fireRateCounter;
 	protected double xDir, yDir;
@@ -75,6 +74,8 @@ public abstract class Mob extends Entity {
 		health -= damage;
 		if (health <= 0) {
 			dead = true;
+			//This just prints out when the player dies
+			if(this instanceof Player) System.out.println("You have died\tMob - damage");
 		}
 	}
 

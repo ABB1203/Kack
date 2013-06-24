@@ -21,7 +21,7 @@ public abstract class Entity {
 	protected int yMin = 0;
 	protected int yMax = 15;
 	
-	protected double x = random.nextInt(10) * 16, y = random.nextInt(10) * 16;
+	protected double x = random.nextInt(30) * 16, y = random.nextInt(30) * 16;
 
 
 	public abstract void render(Screen screen);

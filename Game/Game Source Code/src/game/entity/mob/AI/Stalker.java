@@ -1,20 +1,31 @@
 package game.entity.mob.AI;
 
+import game.Game;
 import game.entity.mob.Mob;
 import game.level.Level;
 
 public class Stalker extends AI {
 
-	public Stalker(Level level) {
+	public Stalker(Level level, Game game) {
+		super(game);
 		this.level = level;
 		sprite = sprite.shot;
 		speed = 1;
 		range = 200;
 		health = 2;
+		damageCounter = 60;
 		randomTick = randomTick();
+		
+		// Makes the AIs move straight away
+		angle = Math.toRadians(random.nextInt(360));
+		xDir = Math.cos(angle) * speed;
+		yDir = Math.sin(angle) * speed;
 	}
 
-	public void tick(Mob player) {
+	public void tick() {
+		// This just gets the player
+		Mob player = level.getPlayers().get(0);
+		
 		super.tick();
 
 		tickCount++;
@@ -100,12 +111,8 @@ public class Stalker extends AI {
 		
 		return true;
 	}
-
-	public void tick(int x, int y) {
-		
-	}
-
-	public void tick() {
-		
+	
+	public boolean isCollidableWithPlayer() {
+		return true;
 	}
 }

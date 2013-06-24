@@ -1,13 +1,12 @@
 package game.entity.mob.AI;
 
-import java.awt.Rectangle;
-
+import game.Game;
 import game.entity.mob.Mob;
-import game.entity.mob.Player;
 
 public abstract class AI extends Mob {
 
-	protected int tickCount;
+	// These names are extremely confusing... damageCount is the variable counting down (until damage can be done again), damageCounter is the value damageCount is reset to
+	protected int tickCount, damageCount, damageCounter;
 	protected int randomTick;
 	protected int range;
 	// Makes the AI move into a random direction if it somehow gets stuck or
@@ -16,41 +15,29 @@ public abstract class AI extends Mob {
 	protected boolean seenPlayer;
 	protected double k, m;
 
-	public AI() {
-		sprite = sprite.voidSprite;
-		speed = 0.5;
-		range = 200;
+	// Added just for testing
+	protected double damage = 1;
+
+	public AI(Game game) {
+		this.game = game;
 		randomTick = randomTick();
 	}
 
-	public void tick(Mob player) {
+	public void tick() {
 		super.tick();
+		
+		damageCount--;
+		
+		// Checks collision with players
+		for (Mob m : level.getPlayers()) {
+			if (getCollisionBox(xDir, yDir).intersects(m.getCollisionBox())) {
+				if (damageCount <= 0) {
+					damageCount = damageCounter;
+					m.damage(damage);
+				}
+			}
+		}
 
-//		tickCount++;
-//
-//		if (tickCount > randomTick || collided) {
-//			tickCount = 0;
-//			randomTick = randomTick();
-//
-//			double dx = player.getX() - x;
-//			double dy = player.getY() - y;
-//
-//			if (range >= distance(player.getX(), player.getY()) && !collided) angle = Math.atan2(dy, dx) + Math.toRadians(random.nextInt(60) - 30);
-//			else {
-//				while (true) {
-//					angle += Math.toRadians(random.nextInt(120) - 60);
-//					xDir = Math.cos(angle) * speed;
-//					yDir = Math.sin(angle) * speed;
-//					if (!hasCollided(xDir, yDir)) break;
-//				}
-//				collided = false;
-//			}
-//
-//			xDir = Math.cos(angle) * speed;
-//			yDir = Math.sin(angle) * speed;
-//		}
-//
-//		move(xDir, yDir);
 	}
 
 	protected void move(double xDir, double yDir) {
@@ -66,6 +53,7 @@ public abstract class AI extends Mob {
 			return true;
 		}
 
+		// Checks if it will collide with other AIs
 		for (AI ai : level.getAIs()) {
 			if (!ai.equals(this)) {
 				if (getCollisionBox(xDir, yDir).intersects(ai.getCollisionBox())) {
@@ -88,5 +76,9 @@ public abstract class AI extends Mob {
 		// not updated, the number of ticks should be 60 each second
 		if (random.nextBoolean() && random.nextBoolean()) remove();
 		return 60 + random.nextInt(90);
+	}
+
+	public boolean isCollidableWithPlayer() {
+		return true;
 	}
 }

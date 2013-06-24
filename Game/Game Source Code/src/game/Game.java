@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
 	private Screen screen;
 	private InputHandler input;
 	private Level level;
-	private Mob player;
+	private Player player;
 	private Weapon weapon;
 	private Mouse mouse;
 
@@ -62,19 +62,12 @@ public class Game extends Canvas implements Runnable {
 		mouse = new Mouse(this);
 		level = new Level("/basicLevel.png");
 		weapon = new Gun();
-		player = new Player(input, weapon, level);
+		player = new Player(input, weapon, level, this);
 		level.addPlayer(player);
-
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
-		level.addAI(new Stalker(level));
+		
+		for(int i = 0; i < 10; i++) {
+			level.addAI(new Stalker(level, this));
+		}
 	}
 
 	public synchronized void start() {
@@ -140,7 +133,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		input.tick();
-		level.tick(screen.getXOffset(), screen.getYOffset());
+		level.tick();
 	}
 
 	int x = 0, y = 0;
@@ -193,11 +186,15 @@ public class Game extends Canvas implements Runnable {
 		return (int) (Math.log(getTileSize()) / Math.log(2));
 	}
 	
-	private int getXScale() {
+	public int getXScale() {
 		return (int) (frame.getWidth() / width);
 	}
 	
-	private int getYScale() {
+	public int getYScale() {
 		return (int) (frame.getHeight() / height);
+	}
+	
+	public Screen getScreen() {
+		return screen;
 	}
 }
