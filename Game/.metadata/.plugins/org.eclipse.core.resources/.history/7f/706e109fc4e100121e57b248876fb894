@@ -158,8 +158,8 @@ public class Game extends Canvas implements Runnable {
 		screen.clear();
 		
 		// This centers the player on the screen
-		int xOffset = player.getX() - (screen.width - player.getSprite().getWidth()) / 2;
-		int yOffset = player.getY() - (screen.height - player.getSprite().getHeight()) / 2;
+		int xOffset = player.getX() - (screen.width - player.getSprite().getSize()) / 2;
+		int yOffset = player.getY() - (screen.height - player.getSprite().getSize()) / 2;
 		
 		level.render(xOffset, yOffset, screen);
 

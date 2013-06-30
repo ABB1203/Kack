@@ -13,15 +13,11 @@ public class Stalker extends AI {
 	protected int damageCount, damageCounter;
 	
 	public Stalker(Game game) {
-		this.game = game;
-		level = game.getLevel();
-		randomTick = randomTick();
-		
+		super(game);
 		sprite = sprite.shot;
 		speed = 1;
 		range = 200;
-		maxHealth = 4;
-		health = maxHealth;
+		health = 2;
 		damageCounter = 60;
 		randomTick = randomTick();
 		

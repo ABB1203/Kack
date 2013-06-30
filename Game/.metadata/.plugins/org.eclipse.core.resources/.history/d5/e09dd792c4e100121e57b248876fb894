@@ -7,16 +7,10 @@ import game.weapon.Gun;
 public class Gunner extends AI {
 
 	public Gunner(Game game) {
-		this.game = game;
-		level = game.getLevel();
-		randomTick = randomTick();
-		
+		super(game);
 		sprite = sprite.voidSprite;
 		speed = 1;
-		
-		maxHealth = 4;
-		health = maxHealth;
-		
+		health = 2;
 		weapon = new Gun();
 	}
 

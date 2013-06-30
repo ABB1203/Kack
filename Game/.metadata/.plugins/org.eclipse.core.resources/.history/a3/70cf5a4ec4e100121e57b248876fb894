@@ -20,6 +20,12 @@ public abstract class AI extends Mob {
 	// Added just for testing
 	protected double damage = 1;
 
+	public AI(Game game) {
+		this.game = game;
+		level = game.getLevel();
+		randomTick = randomTick();
+	}
+
 	public void tick() {
 		super.tick();
 	}
@@ -86,25 +92,11 @@ public abstract class AI extends Mob {
 	protected boolean sees(Mob player) {
 
 		double x0 = ((x < player.getX()) ? x : player.getX()) / 16;
-		double x1 = (((x + sprite.getWidth() > player.getX() + player.getSprite().getWidth()) ? x + sprite.getWidth() : player.getX() + player.getSprite().getWidth()) - 1) / 16;
+		double x1 = (((x + sprite.getSize() > player.getX() + player.getSprite().getSize()) ? x + sprite.getSize() : player.getX() + player.getSprite().getSize()) - 1) / 16;
 		double y0 = ((y < player.getY()) ? y : player.getY()) / 16;
-		double y1 = (((y + sprite.getHeight() > player.getY() + player.getSprite().getHeight()) ? y + sprite.getHeight() : player.getY() + player.getSprite().getHeight()) - 1) / 16;
+		double y1 = (((y + sprite.getSize() > player.getY() + player.getSprite().getSize()) ? y + sprite.getSize() : player.getY() + player.getSprite().getSize()) - 1) / 16;
 
-		if (x != player.getX()) getLineEquation(x + sprite.getWidth(), player.getX() + player.getSprite().getWidth(), y + sprite.getHeight(), player.getY() + player.getSprite().getHeight());
-
-		for (double yy = y0; yy < y1; yy++) {
-			if ((int) x0 != (int) x1) {
-				for (double xx = x0; xx <= x1; xx++) {
-
-					if (level.getTile((int) xx, (int) yy).isSolid()) {
-						if (yy <= xx * k + m && xx * k + m < yy + 1) return false;
-						if (xx <= (yy - m) / k && (yy - m) / k < xx + 1) return false;
-					}
-				}
-			} else if (level.getTile((int) x1, (int) yy).isSolid()) return false;
-		}
-
-		if (x != player.getX()) getLineEquation(x + sprite.getWidth(), player.getX() + player.getSprite().getWidth(), y, player.getY());
+		if (x != player.getX()) getLineEquation(x + sprite.getSize() / 2, player.getX() + player.getSprite().getSize() / 2, y + sprite.getSize() / 2, player.getY() + player.getSprite().getSize() / 2);
 
 		for (double yy = y0; yy < y1; yy++) {
 			if ((int) x0 != (int) x1) {
@@ -117,8 +109,8 @@ public abstract class AI extends Mob {
 				}
 			} else if (level.getTile((int) x1, (int) yy).isSolid()) return false;
 		}
-		
-		if (x != player.getX()) getLineEquation(x + sprite.getWidth(), player.getX() + player.getSprite().getWidth(), y + sprite.getHeight(), player.getY() + sprite.getHeight());
+
+		if (x != player.getX()) getLineEquation(x + sprite.getSize(), player.getX() + player.getSprite().getSize(), y, player.getY());
 
 		for (double yy = y0; yy < y1; yy++) {
 			if ((int) x0 != (int) x1) {
@@ -132,7 +124,21 @@ public abstract class AI extends Mob {
 			} else if (level.getTile((int) x1, (int) yy).isSolid()) return false;
 		}
 		
-		if (x != player.getX()) getLineEquation(x, player.getX(), y + sprite.getHeight(), player.getY() + sprite.getHeight());
+		if (x != player.getX()) getLineEquation(x + sprite.getSize(), player.getX() + player.getSprite().getSize(), y + sprite.getSize(), player.getY() + sprite.getSize());
+
+		for (double yy = y0; yy < y1; yy++) {
+			if ((int) x0 != (int) x1) {
+				for (double xx = x0; xx <= x1; xx++) {
+
+					if (level.getTile((int) xx, (int) yy).isSolid()) {
+						if (yy <= xx * k + m && xx * k + m < yy + 1) return false;
+						if (xx <= (yy - m) / k && (yy - m) / k < xx + 1) return false;
+					}
+				}
+			} else if (level.getTile((int) x1, (int) yy).isSolid()) return false;
+		}
+		
+		if (x != player.getX()) getLineEquation(x, player.getX(), y + sprite.getSize(), player.getY() + sprite.getSize());
 
 		for (double yy = y0; yy < y1; yy++) {
 			if ((int) x0 != (int) x1) {
@@ -146,8 +152,7 @@ public abstract class AI extends Mob {
 			} else if (level.getTile((int) x1, (int) yy).isSolid()) return false;
 		}
 
-		// This may be redundant
-		if (x != player.getX()) getLineEquation(x + sprite.getWidth() / 2 + 1, player.getX() + player.getSprite().getWidth() / 2, y + sprite.getHeight() / 2, player.getY() + player.getSprite().getHeight() / 2);
+		if (x != player.getX()) getLineEquation(x + sprite.getSize() / 2 + 1, player.getX() + player.getSprite().getSize() / 2, y + sprite.getSize() / 2, player.getY() + player.getSprite().getSize() / 2);
 
 		// The value of the first parameter is changed (+1). By doing this, it
 		// prevents the AI to spot the player when the situation is like this:

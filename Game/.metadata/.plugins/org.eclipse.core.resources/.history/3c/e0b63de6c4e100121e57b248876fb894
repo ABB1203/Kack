@@ -13,10 +13,7 @@ public class Gunner extends AI {
 		
 		sprite = sprite.voidSprite;
 		speed = 1;
-		
-		maxHealth = 4;
-		health = maxHealth;
-		
+		health = 2;
 		weapon = new Gun();
 	}
 

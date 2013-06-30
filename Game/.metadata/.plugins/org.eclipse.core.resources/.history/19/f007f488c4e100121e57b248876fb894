@@ -19,11 +19,7 @@ public class Player extends Mob {
 		level = game.getLevel();
 		this.input = input;
 		this.weapon = weapon;
-		maxHealth = 10;
-		health = maxHealth;
-		//Just for testing
-		lastHealth = health;
-		
+		health = 10;
 		sprite = Sprite.leaves;
 		speed = 1;
 	}
@@ -58,8 +54,8 @@ public class Player extends Mob {
 			int yOffset = game.getScreen().getYOffset();
 			
 			// As in the weapon class, the 3 is the scale
-			double dx = Mouse.getX() - (x + sprite.getWidth() / 2 - xOffset) * 3;
-			double dy = Mouse.getY() - (y + sprite.getHeight() / 2 - yOffset) * 3;
+			double dx = Mouse.getX() - (x + sprite.getSize() / 2 - xOffset) * 3;
+			double dy = Mouse.getY() - (y + sprite.getSize() / 2 - yOffset) * 3;
 
 			angle = Math.atan2(dy, dx);
 			shoot((int) x, (int) y, angle, weapon);

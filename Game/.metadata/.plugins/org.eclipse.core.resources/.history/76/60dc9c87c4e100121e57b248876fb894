@@ -38,8 +38,8 @@ public class Gun extends Weapon {
 	}
 
 	public void render(Graphics g, int xOffset, int yOffset, Mob mob, int xScale, int yScale) {
-		int x = mob.getX() + mob.getSprite().getWidth() / 2 - xOffset;
-		int y = mob.getY() + mob.getSprite().getHeight() / 2 - yOffset;
+		int x = mob.getX() + mob.getSprite().getSize() / 2 - xOffset;
+		int y = mob.getY() + mob.getSprite().getSize() / 2 - yOffset;
 
 		// replace 3 (the scale) with (jframe.width / width) to make it possible
 		// to work after resizing the frame

@@ -7,8 +7,8 @@ public class Tile {
 
 	private int x, y;
 	public Sprite sprite;
-	private int width, height;
-	private static int shiftX, shiftY;
+	private int tileSize;
+	private static int shift;
 
 	public static Tile grass = new GrassTile(Sprite.grass);
 	public static Tile flower = new GrassTile(Sprite.flower);
@@ -17,22 +17,16 @@ public class Tile {
 	
 	public Tile(Sprite sprite) {
 		this.sprite = sprite;
-		width = sprite.getWidth();
-		height = sprite.getHeight();
-		shiftX = (int) (Math.log(width) / Math.log(2));
-		shiftY = (int) (Math.log(height) / Math.log(2));
+		tileSize = sprite.getSize();
+		shift = (int) (Math.log(tileSize) / Math.log(2));
 	}
 	
 	public void render(int x, int y, Screen screen) {
-		screen.renderTile(x << shiftX, y << shiftY, this);
+		screen.renderTile(x << shift, y << shift, this);
 	}
 	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
+	public int getSize() {
+		return tileSize;
 	}
 	
 	public boolean isSolid() {

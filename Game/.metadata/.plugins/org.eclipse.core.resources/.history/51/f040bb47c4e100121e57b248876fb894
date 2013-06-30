@@ -23,25 +23,16 @@ public abstract class Mob extends Entity {
 	protected double fireRateCounter;
 	protected double xDir, yDir;
 	protected double speed;
-	protected double health, lastHealth, maxHealth;
+	protected double health;
 	protected boolean dead = false;
-	
-	// Number of ticks the health bar should be displayed
-	protected int healthBarTick = 240;
-	protected int healthBarTickCount = healthBarTick;
 
 	protected List<Projectile> projectiles = new ArrayList<Projectile>();
-
+	
 	protected void tick() {
-		if (dead) {
+		if(dead) {
 			remove();
 			level.removeMob(this);
 		}
-		
-		if(lastHealth > health) lastHealth -= 0.02;
-		if(lastHealth < health) lastHealth = health;
-
-		healthBarTickCount++;
 	}
 
 	protected void move(double xDir, double yDir) {
@@ -72,14 +63,6 @@ public abstract class Mob extends Entity {
 		screen.renderMob((int) x, (int) y, this);
 	}
 
-	public void renderHealthBar(Screen screen) {
-		int xx = (int) (x + sprite.getWidth() / 2 - getHealthBarSprite().getWidth() / 2);
-		int yy = (int) (y + sprite.getHeight() / 2 - getHealthBarSprite().getHeight() / 2) - game.getTileSize();
-		if (healthBarTickCount < healthBarTick) {
-			screen.renderHealthBar(xx, yy, this);
-		}
-	}
-
 	protected void clear() {
 		for (int i = 0; i < level.getProjectiles().size(); i++) {
 			Projectile p = level.getProjectiles().get(i);
@@ -88,13 +71,11 @@ public abstract class Mob extends Entity {
 	}
 
 	public void damage(double damage) {
-		healthBarTickCount = 0;
-		
 		health -= damage;
 		if (health <= 0) {
 			dead = true;
-			// This just prints out when the player dies
-			if (this instanceof Player) System.out.println("You died!\tMob - damage");
+			//This just prints out when the player dies
+			if(this instanceof Player) System.out.println("You have died\tMob - damage");
 		}
 	}
 
@@ -112,29 +93,5 @@ public abstract class Mob extends Entity {
 
 	public Sprite getSprite() {
 		return sprite;
-	}
-
-	public Sprite getHealthBarSprite() {
-//		if (health / maxHealth >= 0.875) return Sprite.health[4];
-//		if (health / maxHealth >= 0.625) return Sprite.health[3];
-//		if (health / maxHealth >= 0.375) return Sprite.health[2];
-//		if (health / maxHealth >= 0.125) return Sprite.health[1];
-//		if (health / maxHealth < 0) return Sprite.health[0];
-//
-//		return Sprite.health[0];
-		
-		return Sprite.healthBar;
-	}
-	
-	public double getHealth() {
-		return health;
-	}
-	
-	public double getMaxHealth() {
-		return maxHealth;
-	}
-	
-	public double getLastHealth() {
-		return lastHealth;
 	}
 }

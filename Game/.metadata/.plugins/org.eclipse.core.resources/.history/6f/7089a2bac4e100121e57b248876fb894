@@ -100,10 +100,6 @@ public class Level {
 		for (int i = 0; i < AIs.size(); i++) {
 			AIs.get(i).render(screen);
 		}
-		
-		for(int i = 0; i < mobs.size(); i++) {
-			mobs.get(i).renderHealthBar(screen);
-		}
 
 	}
 
