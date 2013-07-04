@@ -360,7 +360,7 @@ public class RandomLevel extends Level {
 		}
 		
 		g.setColor(Color.yellow);
-		g.fillRect((int)(p.getX()/16 * scale), (int)(p.getY()/16 * scale), (int)scale, (int)scale);
+		g.fillRect(p.getX()/16 * scale, p.getY()/16 * scale, scale, scale);
 	}
 
 }

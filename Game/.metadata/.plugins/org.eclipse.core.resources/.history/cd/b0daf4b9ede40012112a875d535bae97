@@ -180,7 +180,7 @@ public class Game extends Canvas implements Runnable {
 		} else {
 			// All the code where one can see the level (just for testing)
 			double scale = getWidth() / ((RandomLevel) level).getTileWidth();
-			((RandomLevel) level).draw(g, scale, player);
+			((RandomLevel) level).draw(g, scale);
 		}
 
 		g.dispose();

@@ -358,9 +358,6 @@ public class RandomLevel extends Level {
 			Room r = corridors.get(i);
 			if (!r.isRemoved()) g.fillRect((int) (r.getX() * scale), (int) (r.getY() * scale), (int) (r.getWidth() * scale), (int) (r.getHeight() * scale));
 		}
-		
-		g.setColor(Color.yellow);
-		g.fillRect((int)(p.getX()/16 * scale), (int)(p.getY()/16 * scale), (int)scale, (int)scale);
 	}
 
 }

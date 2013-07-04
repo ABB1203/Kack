@@ -1,6 +1,5 @@
 package game.level.random;
 
-import game.entity.mob.Player;
 import game.level.Level;
 
 import java.awt.Color;
@@ -336,7 +335,7 @@ public class RandomLevel extends Level {
 		}
 	}
 
-	public void draw(Graphics g, double scale, Player p) {
+	public void draw(Graphics g, double scale) {
 
 		g.setColor(Color.magenta);
 		g.fillRect(0, 0, (int) (width * scale), (int) (height * scale));
@@ -358,9 +357,6 @@ public class RandomLevel extends Level {
 			Room r = corridors.get(i);
 			if (!r.isRemoved()) g.fillRect((int) (r.getX() * scale), (int) (r.getY() * scale), (int) (r.getWidth() * scale), (int) (r.getHeight() * scale));
 		}
-		
-		g.setColor(Color.yellow);
-		g.fillRect((int)(p.getX()/16 * scale), (int)(p.getY()/16 * scale), (int)scale, (int)scale);
 	}
 
 }
