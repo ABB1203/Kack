@@ -1,0 +1,57 @@
+package game.level.random;
+
+import java.awt.Rectangle;
+import java.util.Random;
+
+public class Room {
+
+	private int x, y, width, height;
+	private boolean[] pixels;
+	private boolean removed = false;
+	private final Random random = new Random();
+	
+	public Room(int w, int h, RandomLevel randomLevel) {
+		width = (random.nextBoolean() ? w : h) + random.nextInt(w);
+		height = ((width == w) ? h : w) + random.nextInt(3);
+		
+		System.out.println(width);
+
+		// Makes the rooms larger to not have the same dimensions as all the other rooms
+		
+		generateXY();
+	}
+	
+	protected void generateXY () {
+		x = 100;
+		y = 100;
+	}
+	
+	public Rectangle getRectangle() {
+		Rectangle r = new Rectangle(x, y, width, height);
+		return r;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public void remove() {
+		removed = true;
+	}
+	
+	public boolean isRemoved() {
+		return removed;
+	}
+}

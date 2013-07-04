@@ -1,0 +1,34 @@
+package game.level.random;
+
+import game.level.Level;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Random;
+
+public class RandomLevel extends Level {
+	
+	private final Random random = new Random();
+
+	public RandomLevel(int difficulty) {
+		super(difficulty);
+		
+		width = 200 + random.nextInt(20);
+		height = width * 10 / 16 + random.nextInt(20);
+	}
+	
+	public void draw(Graphics g, double scale) {
+		g.setColor(Color.black);
+		g.drawRect((int)(100 * scale), (int)(100 * scale), (int)(100 * scale), (int)(100 * scale));
+	}
+	
+	protected void generateLevel() {
+		
+		generateBounds();
+	}
+	
+	private void generateBounds() {
+		
+	}
+
+}

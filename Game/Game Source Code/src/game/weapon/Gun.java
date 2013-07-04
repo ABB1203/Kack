@@ -1,7 +1,6 @@
 package game.weapon;
 
 import game.entity.mob.Mob;
-import game.entity.mob.Player;
 import game.gfx.Sprite;
 import game.input.Mouse;
 import game.level.Level;
@@ -20,7 +19,7 @@ public class Gun extends Weapon {
 		sprite = Sprite.shot;
 		
 		// These properties are just random
-		speed = 2;
+		speed = 4;
 		damage = 1;
 		range = 200;
 		shotsPerSec = 3;

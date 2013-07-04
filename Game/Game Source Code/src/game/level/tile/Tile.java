@@ -4,8 +4,7 @@ import game.gfx.Screen;
 import game.gfx.Sprite;
 
 public class Tile {
-
-	private int x, y;
+	
 	public Sprite sprite;
 	private int width, height;
 	private static int shiftX, shiftY;

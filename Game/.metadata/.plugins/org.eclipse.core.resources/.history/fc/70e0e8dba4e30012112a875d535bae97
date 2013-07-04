@@ -1,0 +1,16 @@
+package game.level.random;
+
+import game.level.Level;
+
+public class RandomLevel extends Level {
+
+	public RandomLevel(String path) {
+		super(path);
+		// The path can later be changed to "hard", 
+	}
+	
+	protected void generateLevel() {
+		
+	}
+
+}

@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 public class SpriteSheet {
 
 	private String path;
-	private static int size;
+	private int size;
 	public int[] pixels;
 
 	// Since the sheets will not change, they will be static and thus accessible
@@ -33,7 +33,7 @@ public class SpriteSheet {
 		}
 	}
 	
-	public static int getSize() {
+	public int getSize() {
 		return size;
 	}
 

@@ -1,15 +1,11 @@
 package game.entity.projectile;
 
+import game.Game;
 import game.entity.Entity;
-import game.entity.mob.Mob;
-import game.entity.mob.Player;
 import game.gfx.Screen;
 import game.gfx.Sprite;
 import game.level.tile.Tile;
 import game.weapon.Weapon;
-
-import java.awt.Rectangle;
-import java.util.List;
 
 public abstract class Projectile extends Entity {
 
@@ -61,7 +57,7 @@ public abstract class Projectile extends Entity {
 	}
 
 	protected boolean isSolidTile(double xDir, double yDir, int x, int y) {
-		Tile newTile = level.getTile((int) (this.x + x + xDir) >> game.getTileShift(), (int) (this.y + y + yDir) >> game.getTileShift());
+		Tile newTile = level.getTile((int) (this.x + x + xDir) >> Game.getTileShift(), (int) (this.y + y + yDir) >> Game.getTileShift());
 		if (newTile.isSolid()) return true;
 		return false;
 	}

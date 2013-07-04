@@ -1,0 +1,78 @@
+package game.level.random;
+
+import game.level.Level;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class RandomLevel extends Level {
+
+	private final Random random = new Random();
+	private ArrayList<Room> rooms = new ArrayList<Room>();
+
+	/**
+	 * 1 : sizes of the bounds 2 : sizes of the big rooms 3 : sizes of the small
+	 * rooms (big rooms / 2)
+	 **/
+	private int w1, w2, w3, h1, h2, h3;
+
+	private Room[] bounds = new Room[2];
+
+	public RandomLevel(int difficulty) {
+		super(difficulty);
+
+		width = 200;
+		height = width * 10 / 16;
+		
+		w1 = (int)(width / 2.5);
+		h1 = (int)(w1 / 1.618);
+		w2 = 16;
+		h2 = (int) (w2 / 1.618);
+		w3 = w2 / 2;
+		h3 = h2 / 2;
+
+		generateLevel();
+	}
+
+	public void draw(Graphics g, double scale) {
+		if (rooms.size() != 0) {
+			Room r = rooms.get(0);
+
+			g.setColor(Color.magenta);
+			g.fillRect((int) (1 * scale), (int) (1 * scale), (int) (width * scale), (int) (height * scale));
+			g.setColor(Color.green);
+			g.fillRect((int) (r.getX() * scale), (int) (r.getY() * scale), (int) (r.getWidth() * scale), (int) (r.getHeight() * scale));
+			
+			Room b = bounds[0];
+			
+			g.setColor(Color.yellow);
+			g.fillRect((int) (b.getX() * scale), (int) (b.getY() * scale), (int) (b.getWidth() * scale), (int) (b.getHeight() * scale));
+		}
+	}
+
+	protected void generateLevel() {
+		rooms.add(new Room(w2, h2, this));
+		generateBounds();
+	}
+
+	private void generateBounds() {
+		for (int i = 0; i < bounds.length; i++) {
+			while (true) {
+				bounds[i] = new Bound(w1, h1, this);
+				break;
+			}
+		}
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+}

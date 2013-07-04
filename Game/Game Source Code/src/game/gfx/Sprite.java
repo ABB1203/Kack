@@ -8,14 +8,15 @@ public class Sprite {
 	private int x, y;
 	public int[] pixels;
 	private SpriteSheet sheet;
-	private Game game;
-	private int tileSize = game.getTileSize();
+	private int tileSize = Game.getTileSize();
 
 	public static Sprite grass = new Sprite(16, 0, 0, SpriteSheet.tiles);
 	public static Sprite flower = new Sprite(16, 1, 0, SpriteSheet.tiles);
 	public static Sprite rock = new Sprite(16, 2, 0, SpriteSheet.tiles);
-	public static Sprite leaves = new Sprite(16, 0, 2, SpriteSheet.tiles);
-	public static Sprite shot = new Sprite(16, 3, 0, SpriteSheet.tiles);
+	public static Sprite hedge = new Sprite(16, 6, 0, SpriteSheet.tiles);
+	public static Sprite shot = new Sprite(16, 7, 0, SpriteSheet.tiles);
+	public static Sprite barrel = new Sprite(16, 8, 0, SpriteSheet.tiles);
+	public static Sprite leaves = new Sprite(16, 9, 0, SpriteSheet.tiles);
 	public static Sprite voidSprite = new Sprite(16, 0xff);
 	
 	public static Sprite healthBar = new Sprite(32, 16, 0, 10, SpriteSheet.tiles);

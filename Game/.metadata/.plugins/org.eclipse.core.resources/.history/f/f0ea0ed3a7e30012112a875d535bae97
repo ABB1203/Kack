@@ -1,0 +1,27 @@
+package game.level.random;
+
+import java.awt.Rectangle;
+
+public class Room {
+
+	private int x, y, width, height;
+	private boolean[] pixels;
+	private boolean removed = false;
+	
+	public Room(int x, int y, int width, int height) {
+		
+	}
+	
+	public Rectangle getRectangle() {
+		Rectangle r = new Rectangle(x, y, width, height);
+		return r;
+	}
+	
+	public void remove() {
+		removed = true;
+	}
+	
+	public boolean isRemoved() {
+		return removed;
+	}
+}

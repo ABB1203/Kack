@@ -10,6 +10,8 @@ import game.input.Mouse;
 import game.level.Level;
 import game.weapon.Weapon;
 
+import java.util.ArrayList;
+
 public class Player extends Mob {
 
 	private InputHandler input;
@@ -21,9 +23,19 @@ public class Player extends Mob {
 		this.weapon = weapon;
 		maxHealth = 10;
 		health = maxHealth;
-		//Just for testing
+		// Just for testing
 		lastHealth = health;
-		
+
+		// Just for making the Player spawn on a non-solid tile
+		Level level = game.getLevel();
+		while (true) {
+			x = random.nextInt(level.getTileWidth());
+			y = random.nextInt(level.getTileHeight());
+			if (!level.getTile((int) x, (int) y).isSolid()) break;
+		}
+		x*=16;
+		y*=16;
+
 		sprite = Sprite.leaves;
 		speed = 1;
 	}
@@ -50,13 +62,14 @@ public class Player extends Mob {
 	}
 
 	private void tickShooting() {
+		cleanProjectiles();
 
 		if (fireRateCounter < weapon.getFireRate()) fireRateCounter++;
 
 		if (Mouse.getButton() == 1 && fireRateCounter / weapon.getFireRate() >= 1) {
 			int xOffset = game.getScreen().getXOffset();
 			int yOffset = game.getScreen().getYOffset();
-			
+
 			// As in the weapon class, the 3 is the scale
 			double dx = Mouse.getX() - (x + sprite.getWidth() / 2 - xOffset) * 3;
 			double dy = Mouse.getY() - (y + sprite.getHeight() / 2 - yOffset) * 3;
@@ -67,21 +80,16 @@ public class Player extends Mob {
 			fireRateCounter -= weapon.getFireRate();
 		}
 		
+		
 		// Checking for hits on all the AIs
-		for (AI ai : level.getAIs()) {
+		for (Mob ai : level.getAIs()) {
 
-			hitChecking: for (Projectile p : projectiles) {
-				if (p.isRemoved()) {
-					projectiles.remove(p);
-					break;
-				}
+			for (Projectile p : projectiles) {
 				if (p.getCollisionBox().intersects(ai.getCollisionBox())) {
 					p.remove();
 					ai.damage(p.getDamage());
-					break hitChecking;
 				}
 			}
-
 		}
 	}
 }

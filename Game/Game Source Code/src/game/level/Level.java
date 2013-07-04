@@ -12,13 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 
 public class Level {
-
-	private static Random random = new Random();
 
 	protected int width, height;
 	protected int[] tiles;
@@ -33,6 +30,10 @@ public class Level {
 	public Level(String path) {
 		loadLevel(path);
 		generateLevel();
+	}
+
+	public Level(int difficulty) {
+
 	}
 
 	protected void loadLevel(String path) {
@@ -53,18 +54,18 @@ public class Level {
 	}
 
 	public void tick() {
-		for (int i = 0; i < players.size(); i++) {
-			((Player) players.get(i)).tick();
+		for (Mob p : players) {
+			p.tick();
 		}
 
-		for (int i = 0; i < AIs.size(); i++) {
-			if(players.size() != 0)
-			AIs.get(i).tick();
+		for (Mob ai : AIs) {
+			if (players.size() != 0) ai.tick();
 		}
 
-		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles.get(i).tick();
+		for (Projectile p : projectiles) {
+			p.tick();
 		}
+		cleanLists();
 	}
 
 	public void render(int xOffset, int yOffset, Screen screen) {
@@ -78,9 +79,9 @@ public class Level {
 		// Every "4" can be replaced with "game.getMinTileShift()" to get the
 		// shift value depending on the size of the tiles
 		int x0 = xOffset >> 4; // from pixel position to tile position
-		int x1 = (xOffset + screen.width + game.getTileSize()) >> 4;
+		int x1 = (xOffset + screen.width + Game.getTileSize()) >> 4;
 		int y0 = yOffset >> 4;
-		int y1 = (yOffset + screen.height + game.getTileSize()) >> 4;
+		int y1 = (yOffset + screen.height + Game.getTileSize()) >> 4;
 		// These values define the rendering region of the screen
 
 		for (int y = y0; y < y1; y++) {
@@ -100,8 +101,8 @@ public class Level {
 		for (int i = 0; i < AIs.size(); i++) {
 			AIs.get(i).render(screen);
 		}
-		
-		for(int i = 0; i < mobs.size(); i++) {
+
+		for (int i = 0; i < mobs.size(); i++) {
 			mobs.get(i).renderHealthBar(screen);
 		}
 
@@ -120,11 +121,44 @@ public class Level {
 	public void addProjectile(Projectile p) {
 		projectiles.add(p);
 	}
-	
+
 	public void removeMob(Mob m) {
 		mobs.remove(m);
-		if(m instanceof AI) AIs.remove(m);
-		if(m instanceof Player) players.remove(m);
+		if (m instanceof AI) AIs.remove(m);
+		if (m instanceof Player) players.remove(m);
+	}
+
+	protected void cleanLists() {
+		cleanPlayers();
+		cleanAIs();
+	}
+
+	protected void cleanPlayers() {
+		boolean updated = true;
+		while (updated) {
+			updated = false;
+			for (Player p : players) {
+				if (p.isRemoved()) {
+					removeMob(p);
+					updated = true;
+					break;
+				}
+			}
+		}
+	}
+	
+	protected void cleanAIs() {
+		boolean updated = true;
+		while (updated) {
+			updated = false;
+			for (AI ai : AIs) {
+				if (ai.isRemoved()) {
+					removeMob(ai);
+					updated = true;
+					break;
+				}
+			}
+		}
 	}
 
 	public Tile getTile(int x, int y) {
@@ -143,6 +177,14 @@ public class Level {
 	public int getHeight() {
 		// From tile width to pixel width
 		return height << 4;
+	}
+
+	public int getTileWidth() {
+		return width;
+	}
+
+	public int getTileHeight() {
+		return height;
 	}
 
 	public List<Projectile> getProjectiles() {

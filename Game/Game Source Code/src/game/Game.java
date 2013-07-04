@@ -1,14 +1,13 @@
 package game;
 
-import game.entity.mob.Mob;
 import game.entity.mob.Player;
-import game.entity.mob.AI.AI;
 import game.entity.mob.AI.Gunner;
 import game.entity.mob.AI.Stalker;
 import game.gfx.Screen;
 import game.input.InputHandler;
 import game.input.Mouse;
 import game.level.Level;
+import game.level.random.RandomLevel;
 import game.weapon.Gun;
 import game.weapon.Weapon;
 
@@ -20,6 +19,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+@SuppressWarnings({ "unused", "serial" })
 public class Game extends Canvas implements Runnable {
 
 	private static int width;
@@ -28,7 +28,6 @@ public class Game extends Canvas implements Runnable {
 	private static int minTileSize;
 	private Dimension dimensions;
 
-	private String levelPath;
 	private boolean running = false;
 	private Thread thread;
 	private Frame frame;
@@ -44,10 +43,10 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels;
 
 	public Game(String levelPath, int width, int height, int scale, int tileSize, Frame frame) {
-		this.width = width;
-		this.height = height;
-		this.scale = scale;
-		this.minTileSize = tileSize;
+		Game.width = width;
+		Game.height = height;
+		Game.scale = scale;
+		Game.minTileSize = tileSize;
 		this.frame = frame;
 
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -61,16 +60,17 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 		input = new InputHandler(this);
 		mouse = new Mouse(this);
-		level = new Level("/basicLevel.png");
+		//level = new Level("/basicLevel.png");
+		level = new RandomLevel(1);
 		weapon = new Gun();
 		player = new Player(input, weapon, this);
 		level.addPlayer(player);
-		
-		for(int i = 0; i < 10; i++) {
+
+		for (int i = 0; i < 10; i++) {
 			level.addAI(new Gunner(this));
 		}
-		
-		for(int i = 0; i < 10; i++) {
+
+		for (int i = 0; i < 10; i++) {
 			level.addAI(new Stalker(this));
 		}
 	}
@@ -139,8 +139,8 @@ public class Game extends Canvas implements Runnable {
 	public void tick() {
 		input.tick();
 		level.tick();
-		
-		if(level.getAIs().size() == 0) {
+
+		if (level.getAIs().size() == 0) {
 			System.out.println("You have won!");
 			stop();
 		}
@@ -156,24 +156,32 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear();
-		
+
 		// This centers the player on the screen
 		int xOffset = player.getX() - (screen.width - player.getSprite().getWidth()) / 2;
 		int yOffset = player.getY() - (screen.height - player.getSprite().getHeight()) / 2;
-		
+
 		level.render(xOffset, yOffset, screen);
 
 		Graphics g = bs.getDrawGraphics();
+
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, getWidth(), getHeight());
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
 
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		// Just for testing with the random level class
+		if (!input.escape) {
+			g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
-		g.setColor(Color.black);
-
-		weapon.render(g, screen.getXOffset(), screen.getYOffset(), player, getXScale(), getYScale());
+			weapon.render(g, screen.getXOffset(), screen.getYOffset(), player, getXScale(), getYScale());
+		} else {
+			// All the code where one can see the level (just for testing)
+			double scale = getWidth() / ((RandomLevel) level).getTileWidth();
+			((RandomLevel) level).draw(g, scale);
+		}
 
 		g.dispose();
 		bs.show();
@@ -195,23 +203,23 @@ public class Game extends Canvas implements Runnable {
 	public static int getTileShift() {
 		return (int) (Math.log(getTileSize()) / Math.log(2));
 	}
-	
+
 	public int getXScale() {
 		return (int) (frame.getWidth() / width);
 	}
-	
+
 	public int getYScale() {
 		return (int) (frame.getHeight() / height);
 	}
-	
+
 	public Screen getScreen() {
 		return screen;
 	}
-	
+
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	public Level getLevel() {
 		return level;
 	}

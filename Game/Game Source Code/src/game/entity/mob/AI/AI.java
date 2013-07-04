@@ -1,6 +1,5 @@
 package game.entity.mob.AI;
 
-import game.Game;
 import game.entity.mob.Mob;
 import game.entity.mob.Player;
 import game.entity.projectile.Projectile;
@@ -10,9 +9,6 @@ public abstract class AI extends Mob {
 	protected int tickCount;
 	protected int randomTick;
 	protected int range;
-	// Makes the AI move into a random direction if it somehow gets stuck or
-	// trapped by the player
-	protected boolean collided;
 	protected boolean seenPlayer;
 	protected double k, m;
 	protected boolean hasRecentlyShot = false;
@@ -24,13 +20,6 @@ public abstract class AI extends Mob {
 		super.tick();
 	}
 
-	protected void move(double xDir, double yDir) {
-		if (!hasCollided(xDir, yDir)) {
-			x += xDir;
-			y += yDir;
-		} else collided = true;
-	}
-
 	protected boolean hasCollided(double xDir, double yDir) {
 		if (super.hasCollided(xDir, yDir)) {
 			seenPlayer = false;
@@ -38,7 +27,7 @@ public abstract class AI extends Mob {
 		}
 
 		// Checks if it will collide with other AIs
-		for (AI ai : level.getAIs()) {
+		for (Mob ai : level.getAIs()) {
 			if (!ai.equals(this)) {
 				if (getCollisionBox(xDir, yDir).intersects(ai.getCollisionBox())) {
 					return true;
@@ -58,7 +47,6 @@ public abstract class AI extends Mob {
 	protected int randomTick() {
 		// This gives a random value to how many ticks the AI should wait. If
 		// not updated, the number of ticks should be 60 each second
-		if (random.nextBoolean() && random.nextBoolean()) remove();
 		return 30 + random.nextInt(30);
 	}
 
@@ -68,17 +56,14 @@ public abstract class AI extends Mob {
 	}
 	
 	protected void tickShooting() {
+		cleanProjectiles();
+		
 		Player player = game.getPlayer();
 		
-		hitChecking: for (Projectile p : projectiles) {
-			if (p.isRemoved()) {
-				projectiles.remove(p);
-				break;
-			}
+		for (Projectile p : projectiles) {
 			if (p.getCollisionBox().intersects(player.getCollisionBox())) {
 				p.remove();
 				player.damage(p.getDamage());
-				break hitChecking;
 			}
 		}
 	}

@@ -8,8 +8,6 @@ import game.level.tile.Tile;
 import java.awt.Rectangle;
 import java.util.Random;
 
-import org.w3c.dom.css.Rect;
-
 public abstract class Entity {
 
 	protected boolean removed = false;
@@ -21,7 +19,7 @@ public abstract class Entity {
 	protected int yMin = 0;
 	protected int yMax = 15;
 	
-	protected double x = random.nextInt(31) * 16, y = random.nextInt(31) * 16;
+	protected double x, y;
 
 
 	public abstract void render(Screen screen);
@@ -55,7 +53,7 @@ public abstract class Entity {
 	}
 
 	protected boolean isSolidTile(double xDir, double yDir, int x, int y) {
-		Tile newTile = level.getTile((int) (this.x + x + xDir) >> game.getTileShift(), (int)(this.y + y + yDir) >> game.getTileShift());
+		Tile newTile = level.getTile((int) (this.x + x + xDir) >> Game.getTileShift(), (int)(this.y + y + yDir) >> Game.getTileShift());
 		if (newTile.isSolid()) return true;
 		return false;
 	}

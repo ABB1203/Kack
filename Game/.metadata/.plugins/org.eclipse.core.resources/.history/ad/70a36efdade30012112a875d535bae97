@@ -1,0 +1,13 @@
+package game.level.random;
+
+public class Bound extends Room {
+
+	public Bound(int w, int h, RandomLevel randomLevel) {
+		super(w, h, randomLevel);
+	}
+	
+	protected void generateXY() {
+		x = random.nextInt(level.getWidth());
+	}
+
+}

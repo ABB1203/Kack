@@ -1,0 +1,10 @@
+package game.level;
+
+public class RandomLevel extends Level {
+
+	public RandomLevel() {
+		// The path can later be changed to "hard", "easy" etc
+		
+	}
+
+}

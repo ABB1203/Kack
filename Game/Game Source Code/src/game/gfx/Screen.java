@@ -1,6 +1,5 @@
 package game.gfx;
 
-import game.Game;
 import game.entity.mob.Mob;
 import game.entity.projectile.Projectile;
 import game.level.tile.Tile;
@@ -12,8 +11,6 @@ public class Screen {
 	private final Random random = new Random();
 	public int width, height;
 	private int xOffset, yOffset;
-
-	private Game game;
 
 	public int[] pixels;
 	public int[] tiles = new int[8 * 8];
@@ -59,6 +56,7 @@ public class Screen {
 				if (xAbsolute < -mob.getSprite().getWidth() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
 				if (xAbsolute < 0) xAbsolute = 0;
 
+				if(mob.getSprite().pixels[x + y * mob.getSprite().getWidth()] != 0xffff00ff)
 				pixels[xAbsolute + yAbsolute * width] = mob.getSprite().pixels[x + y * mob.getSprite().getWidth()];
 
 			}
@@ -76,7 +74,7 @@ public class Screen {
 				if (xAbsolute < 0) xAbsolute = 0;
 
 				int color = p.getSprite().pixels[x + y * p.getSprite().getWidth()];
-				if (color != 0xffEE00AC) pixels[xAbsolute + yAbsolute * width] = p.getSprite().pixels[x + y * p.getSprite().getWidth()];
+				if (color != 0xffff00ff) pixels[xAbsolute + yAbsolute * width] = p.getSprite().pixels[x + y * p.getSprite().getWidth()];
 			}
 		}
 	}
@@ -98,23 +96,20 @@ public class Screen {
 				if (m.getHealthBarSprite().pixels[x + y * m.getHealthBarSprite().getWidth()] == 0xff00ffff) {
 					int span = m.getHealthBarSprite().getWidth();
 
-					if (m.getLastHealth() / m.getMaxHealth() >= (x * 1.0 / span * 1.0) || x <= 1) {
+					if (m.getLastHealth() / m.getMaxHealth() >= (x * 1.0 / span * 1.0)) {
 
-						if (m.getHealth() / m.getMaxHealth() >= (x * 1.0 / span * 1.0) || x <= 1) color = 0xff00;
+						if (m.getHealth() / m.getMaxHealth() >= (x * 1.0 / span * 1.0)) color = 0xff00;
 						else color = 0xffff00;
 					}
 
 					else color = 0xff0000;
-
-					// System.out.println(m.getHealth() + " : " +
-					// m.getLastHealth() + " : " + m.getMaxHealth());
 
 				} else {
 					color = m.getHealthBarSprite().pixels[x + y * m.getHealthBarSprite().getWidth()];
 				}
 				// int color = m.getHealthBarSprite().pixels[x + y *
 				// m.getHealthBarSprite().getWidth()];
-				if (color != 0xffEE00AC) pixels[xAbsolute + yAbsolute * width] = color;
+				if (color != 0xffff00ff) pixels[xAbsolute + yAbsolute * width] = color;
 			}
 		}
 	}
