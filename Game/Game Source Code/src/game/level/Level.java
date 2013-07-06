@@ -94,12 +94,12 @@ public class Level {
 			projectiles.get(i).render(screen);
 		}
 
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).render(screen);
-		}
-
 		for (int i = 0; i < AIs.size(); i++) {
 			AIs.get(i).render(screen);
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).render(screen);
 		}
 
 		for (int i = 0; i < mobs.size(); i++) {

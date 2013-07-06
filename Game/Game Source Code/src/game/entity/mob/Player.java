@@ -1,7 +1,6 @@
 package game.entity.mob;
 
 import game.Game;
-import game.entity.mob.AI.AI;
 import game.entity.projectile.Projectile;
 import game.gfx.Screen;
 import game.gfx.Sprite;
@@ -9,8 +8,6 @@ import game.input.InputHandler;
 import game.input.Mouse;
 import game.level.Level;
 import game.weapon.Weapon;
-
-import java.util.ArrayList;
 
 public class Player extends Mob {
 
@@ -21,7 +18,7 @@ public class Player extends Mob {
 		level = game.getLevel();
 		this.input = input;
 		this.weapon = weapon;
-		maxHealth = 10;
+		maxHealth = 1000;
 		health = maxHealth;
 		// Just for testing
 		lastHealth = health;
@@ -37,7 +34,7 @@ public class Player extends Mob {
 		y*=16;
 
 		sprite = Sprite.leaves;
-		speed = 1;
+		speed = 2;
 	}
 
 	public void tick() {
@@ -85,7 +82,7 @@ public class Player extends Mob {
 		for (Mob ai : level.getAIs()) {
 
 			for (Projectile p : projectiles) {
-				if (p.getCollisionBox().intersects(ai.getCollisionBox())) {
+				if (p.getCollisionBox().intersects(ai.getCollisionBox()) && !p.isRemoved()) {
 					p.remove();
 					ai.damage(p.getDamage());
 				}

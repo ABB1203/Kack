@@ -1,3 +1,5 @@
 1372830384225	Delete element
 1372918873335	Rename field 'smallRooms'
 1372964049693	Rename method 'getHeight'
+1373006243622	Rename local variable 'x'
+1373006989664	Rename method 'isCorner'

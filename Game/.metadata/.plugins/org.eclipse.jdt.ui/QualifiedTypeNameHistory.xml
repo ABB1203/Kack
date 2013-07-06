@@ -7,5 +7,7 @@
 <fullyQualifiedTypeName name="game.level.tile.GrassTile"/>
 <fullyQualifiedTypeName name="game.level.tile.VoidTile"/>
 <fullyQualifiedTypeName name="game.entity.mob.AI.Stalker"/>
+<fullyQualifiedTypeName name="game.level.random.RandomLevel"/>
+<fullyQualifiedTypeName name="game.gfx.Sprite"/>
 <fullyQualifiedTypeName name="game.level.Level"/>
 </qualifiedTypeNameHistroy>
