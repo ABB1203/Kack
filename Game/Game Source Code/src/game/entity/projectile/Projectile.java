@@ -68,5 +68,13 @@ public abstract class Projectile extends Entity {
 		return distance;
 	}
 
+	public int getX() {
+		return (int) x;
+	}
+	
+	public int getY() {
+		return (int) y;
+	}
+
 
 }

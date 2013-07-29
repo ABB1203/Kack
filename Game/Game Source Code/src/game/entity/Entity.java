@@ -65,6 +65,14 @@ public abstract class Entity {
 	public boolean isRemoved() {
 		return removed;
 	}
+
+	public int getX() {
+		return (int) x;
+	}
+
+	public int getY() {
+		return (int) y;
+	}
 	
 	public int getXMin() {
 		return (int) (x + xMin);

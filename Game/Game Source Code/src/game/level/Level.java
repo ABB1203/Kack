@@ -1,6 +1,7 @@
 package game.level;
 
 import game.Game;
+import game.entity.drop.Drop;
 import game.entity.mob.Mob;
 import game.entity.mob.Player;
 import game.entity.mob.AI.AI;
@@ -26,6 +27,7 @@ public class Level {
 	private List<Player> players = new ArrayList<Player>();
 	private List<Mob> mobs = new ArrayList<Mob>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	private List<Drop> drops = new ArrayList<Drop>();
 
 	public Level(String path) {
 		loadLevel(path);
@@ -61,6 +63,10 @@ public class Level {
 		for (Mob ai : AIs) {
 			if (players.size() != 0) ai.tick();
 		}
+		
+		for (Drop d : drops) {
+			d.tick();
+		}
 
 		for (Projectile p : projectiles) {
 			p.tick();
@@ -84,26 +90,31 @@ public class Level {
 		int y1 = (yOffset + screen.height + Game.getTileSize()) >> 4;
 		// These values define the rendering region of the screen
 
+		
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
 				getTile(x, y).render(x, y, screen);
 			}
 		}
 
-		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles.get(i).render(screen);
+		for (Drop d : drops) {
+			d.render(screen);
+		}
+		
+		for (Projectile p : projectiles) {
+			p.render(screen);
 		}
 
-		for (int i = 0; i < AIs.size(); i++) {
-			AIs.get(i).render(screen);
+		for (AI ai : AIs) {
+			ai.render(screen);
 		}
 
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).render(screen);
+		for (Player p : players) {
+			p.render(screen);
 		}
 
-		for (int i = 0; i < mobs.size(); i++) {
-			mobs.get(i).renderHealthBar(screen);
+		for (Mob m : mobs) {
+			m.renderHealthBar(screen);
 		}
 
 	}
@@ -121,16 +132,30 @@ public class Level {
 	public void addProjectile(Projectile p) {
 		projectiles.add(p);
 	}
+	
+	public void addDrop(Drop d) {
+		drops.add(d);
+	}
 
 	public void removeMob(Mob m) {
 		mobs.remove(m);
 		if (m instanceof AI) AIs.remove(m);
 		if (m instanceof Player) players.remove(m);
 	}
+	
+	public void removeDrop(Drop d) {
+		drops.remove(d);
+	}
+	
+	public void removeProjectile(Projectile p) {
+		projectiles.remove(p);
+	}
 
 	protected void cleanLists() {
 		cleanPlayers();
 		cleanAIs();
+		cleanDrops();
+		cleanProjectiles();
 	}
 
 	protected void cleanPlayers() {
@@ -154,6 +179,34 @@ public class Level {
 			for (AI ai : AIs) {
 				if (ai.isRemoved()) {
 					removeMob(ai);
+					updated = true;
+					break;
+				}
+			}
+		}
+	}
+	
+	protected void cleanDrops() {
+		boolean updated = true;
+		while (updated) {
+			updated = false;
+			for (Drop d : drops) {
+				if (d.isRemoved()) {
+					removeDrop(d);
+					updated = true;
+					break;
+				}
+			}
+		}
+	}
+
+	private void cleanProjectiles() {
+		boolean updated = true;
+		while (updated) {
+			updated = false;
+			for (Projectile p : projectiles) {
+				if (p.isRemoved()) {
+					removeProjectile(p);
 					updated = true;
 					break;
 				}
@@ -197,5 +250,9 @@ public class Level {
 
 	public List<Player> getPlayers() {
 		return players;
+	}
+	
+	public List<Drop> getDrops() {
+		return drops;
 	}
 }

@@ -17,6 +17,8 @@ public class Sprite {
 	public static Sprite shot = new Sprite(16, 7, 0, SpriteSheet.tiles);
 	public static Sprite barrel = new Sprite(16, 8, 0, SpriteSheet.tiles);
 	public static Sprite leaves = new Sprite(16, 9, 0, SpriteSheet.tiles);
+	public static Sprite XP = new Sprite(5, 0, 7, SpriteSheet.tiles);
+	public static Sprite gun = new Sprite(16, 3, 0, SpriteSheet.tiles);
 	public static Sprite voidSprite = new Sprite(16, 0xff);
 	
 	public static Sprite healthBar = new Sprite(32, 16, 0, 10, SpriteSheet.tiles);

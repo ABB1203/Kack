@@ -5,7 +5,7 @@ import game.gfx.Sprite;
 
 public class Tile {
 	
-	public Sprite sprite;
+	private Sprite sprite;
 	private int width, height;
 	private static int shiftX, shiftY;
 
@@ -36,5 +36,9 @@ public class Tile {
 	
 	public boolean isSolid() {
 		return false;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
 	}
 }

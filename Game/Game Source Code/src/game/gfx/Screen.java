@@ -1,5 +1,6 @@
 package game.gfx;
 
+import game.entity.drop.Drop;
 import game.entity.mob.Mob;
 import game.entity.projectile.Projectile;
 import game.level.tile.Tile;
@@ -41,7 +42,7 @@ public class Screen {
 				int xAbsolute = x + xPos;
 				if (xAbsolute < -tile.getWidth() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
 				if (xAbsolute < 0) xAbsolute = 0;
-				pixels[xAbsolute + yAbsolute * width] = tile.sprite.pixels[x + y * tile.getWidth()];
+				pixels[xAbsolute + yAbsolute * width] = tile.getSprite().pixels[x + y * tile.getWidth()];
 			}
 		}
 	}
@@ -75,6 +76,22 @@ public class Screen {
 
 				int color = p.getSprite().pixels[x + y * p.getSprite().getWidth()];
 				if (color != 0xffff00ff) pixels[xAbsolute + yAbsolute * width] = p.getSprite().pixels[x + y * p.getSprite().getWidth()];
+			}
+		}
+	}
+	
+	public void renderDrop(int xPos, int yPos, Drop d) {
+		xPos -= xOffset;
+		yPos -= yOffset;
+		for (int y = 0; y < d.getSprite().getHeight(); y++) {
+			int yAbsolute = y + yPos;
+			for (int x = 0; x < d.getSprite().getWidth(); x++) {
+				int xAbsolute = x + xPos;
+				if (xAbsolute < -d.getSprite().getWidth() || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) break;
+				if (xAbsolute < 0) xAbsolute = 0;
+
+				int color = d.getSprite().pixels[x + y * d.getSprite().getWidth()];
+				if (color != 0xffff00ff) pixels[xAbsolute + yAbsolute * width] = d.getSprite().pixels[x + y * d.getSprite().getWidth()];
 			}
 		}
 	}

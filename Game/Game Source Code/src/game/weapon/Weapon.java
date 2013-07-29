@@ -62,11 +62,8 @@ public class Weapon {
 		return sprite;
 	}
 	
-//	public int getPipeXOffset() {
-//		return (int) pipeXOffset;
-//	}
-//	
-//	public int getPipeYOffset() {
-//		return (int) pipeYOffset;
-//	}
+	// If the player can hold down the mouse button and keep shooting, this is true
+	public boolean isHoldable() {
+		return true;
+	}
 }

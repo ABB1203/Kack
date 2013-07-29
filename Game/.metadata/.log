@@ -1517,3 +1517,12 @@ Java Model Exception: Java Model Status [Timed out while retrieving the attached
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
 !SUBENTRY 1 org.eclipse.jdt.core 4 1012 2013-07-04 18:03:56.036
 !MESSAGE Timed out while retrieving the attached javadoc for Throwable [in Throwable.class [in java.lang [in C:\Program Files (x86)\Java\jre7\lib\rt.jar]]] 
+!SESSION 2013-07-08 08:10:06.653 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.core.resources 2 10035 2013-07-08 08:10:11.381
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.

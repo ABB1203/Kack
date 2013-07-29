@@ -1,9 +1,0 @@
-package game.level.random;
-
-public class Bound extends Room {
-
-	public Bound(int w, int h, RandomLevel randomLevel, int type) {
-		super(w, h, randomLevel, type);
-	}
-
-}

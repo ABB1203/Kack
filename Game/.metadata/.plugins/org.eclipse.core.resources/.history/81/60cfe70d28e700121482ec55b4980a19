@@ -2,7 +2,6 @@ package game.entity.mob;
 
 import game.Game;
 import game.entity.Entity;
-import game.entity.drop.AmmoDrop;
 import game.entity.drop.WeaponDrop;
 import game.entity.drop.XPDrop;
 import game.entity.projectile.GunProjectile;
@@ -26,7 +25,6 @@ public abstract class Mob extends Entity {
 	protected double xDir, yDir;
 	protected double speed;
 	protected double health, lastHealth, maxHealth;
-	protected int ammo;
 	// For AIs
 	// The variable was added here so that the move method did not need to be
 	// overridden in the AI class
@@ -41,6 +39,7 @@ public abstract class Mob extends Entity {
 	public void tick() {
 		if (lastHealth > health) lastHealth -= 0.02;
 		if (lastHealth < health) lastHealth = health;
+		
 
 		if (health <= 0 && !isRemoved()) {
 			remove();
@@ -48,7 +47,7 @@ public abstract class Mob extends Entity {
 			// This just prints out when the player dies
 			if (this instanceof Player) System.out.println("You died!\tMob - damage");
 		}
-
+		
 		healthBarTickCount++;
 	}
 
@@ -69,15 +68,12 @@ public abstract class Mob extends Entity {
 			y += yDir;
 		} else collided = true;
 	}
-
+	
 	protected void drop() {
-		if (random.nextBoolean()) {
-			if(random.nextBoolean())
-			level.addDrop(new XPDrop((int) x + sprite.getWidth() / 2, (int) y + sprite.getHeight() / 2));
-			else 
-				level.addDrop(new WeaponDrop((int) x + sprite.getWidth() / 2, (int) y + sprite.getHeight() / 2));
+		if(random.nextBoolean()) {
+			level.addDrop(new XPDrop((int)x + sprite.getWidth() / 2, (int)y + sprite.getHeight()/2));
 		} else {
-			level.addDrop(new AmmoDrop((int) x + sprite.getWidth() / 2, (int) y + sprite.getHeight() / 2));
+			level.addDrop(new WeaponDrop((int)x + sprite.getWidth() / 2, (int)y + sprite.getHeight()/2));
 		}
 	}
 
@@ -99,6 +95,13 @@ public abstract class Mob extends Entity {
 		}
 	}
 
+	protected void clear() {
+		for (int i = 0; i < level.getProjectiles().size(); i++) {
+			Projectile p = level.getProjectiles().get(i);
+			if (p.isRemoved()) level.getProjectiles().remove(i);
+		}
+	}
+
 	public void damage(double damage) {
 		healthBarTickCount = 0;
 
@@ -107,6 +110,14 @@ public abstract class Mob extends Entity {
 
 	public Weapon getWeapon() {
 		return weapon;
+	}
+
+	public int getX() {
+		return (int) x;
+	}
+
+	public int getY() {
+		return (int) y;
 	}
 
 	public Sprite getSprite() {
@@ -128,14 +139,14 @@ public abstract class Mob extends Entity {
 	public double getLastHealth() {
 		return lastHealth;
 	}
-
+	
 	protected void cleanProjectiles() {
 		// Cleans the array list from removed projectiles
-		List<Projectile> temp = new ArrayList<Projectile>();
-		temp.addAll(projectiles);
-		projectiles.clear();
-		for (Projectile p : temp) {
-			if (!p.isRemoved()) projectiles.add(p);
-		}
+				List<Projectile> temp = new ArrayList<Projectile>();
+				temp.addAll(projectiles);
+				projectiles.clear();
+				for(Projectile p : temp) {
+					if(!p.isRemoved()) projectiles.add(p);
+				}
 	}
 }

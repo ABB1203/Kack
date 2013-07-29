@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;game.entity.mob.Mob.clear()&apos; to &apos;cleanProjectiles&apos;&#x0D;&#x0A;- Original project: &apos;Game Source Code&apos;&#x0D;&#x0A;- Original element: &apos;game.entity.mob.Mob.clear()&apos;&#x0D;&#x0A;- Renamed element: &apos;game.entity.mob.Mob.cleanProjectiles()&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;clear&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;game.entity.mob{Mob.java[Mob~clear" name="cleanProjectiles" references="true" stamp="1373208677479" version="1.0"/>
+</session>

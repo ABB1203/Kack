@@ -2,6 +2,7 @@ package game.level.random;
 
 import game.entity.mob.Player;
 import game.entity.mob.AI.AI;
+import game.entity.projectile.Projectile;
 import game.level.Level;
 
 import java.awt.Color;
@@ -37,7 +38,7 @@ public class RandomLevel extends Level {
 	public RandomLevel(int difficulty) {
 		super(difficulty);
 
-		width = 100;
+		width = 75;
 		height = width * 10 / 16;
 
 		tiles = new int[width * height];
@@ -362,7 +363,6 @@ public class RandomLevel extends Level {
 					if (tiles[x + y * width] != -1) {
 						int adjacent = getAdjacentTiles(x, y);
 						getXYIndex(x, y, adjacent);
-
 						if (adjacent == 3 || adjacent == 6 || adjacent == 9 || adjacent == 12) {
 							int temp;
 							if (xIndex > yIndex) yIndex *= yIndex;
@@ -607,10 +607,15 @@ public class RandomLevel extends Level {
 
 		g.setColor(Color.yellow);
 		g.fillRect((int) (p.getX() / (16.0 / scale)), (int) (p.getY() / (16.0 / scale)), (int) scale, (int) scale);
-		
+
 		g.setColor(Color.red);
-		for(AI ai : getAIs()) {
+		for (AI ai : getAIs()) {
 			g.fillRect((int) (ai.getX() / (16.0 / scale)), (int) (ai.getY() / (16.0 / scale)), (int) scale, (int) scale);
+		}
+
+		g.setColor(Color.green);
+		for (Projectile pr : getProjectiles()) {
+			g.fillRect((int) (pr.getX() / (16.0 / scale)), (int) (pr.getY() / (16.0 / scale)), (int) scale, (int) scale);
 		}
 	}
 
